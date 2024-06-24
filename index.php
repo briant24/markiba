@@ -256,7 +256,7 @@ include 'header.php';
       include 'koneksi.php';
 
       // Fetch 6 latest books from the database
-      $sql = "SELECT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, ulasan.rating
+      $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, ulasan.rating
       FROM buku
       LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku WHERE ulasan.rating = 5 ORDER BY buku.id_buku DESC";
       $result = mysqli_query($conn, $sql);
