@@ -78,13 +78,13 @@ if (!isset($_SESSION['username'])) {
             include '../../../koneksi.php';
 
             // Query SQL untuk menampilkan data buku dengan join pada tabel kategori dan ulasan
-            $sql = "SELECT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
-                           buku.sinopsis, kategori.nama_kategori,
-                           ulasan.isi_ulasan, ulasan.rating
+            $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
+                    buku.sinopsis, kategori.nama_kategori,
+                    MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
                     FROM buku
                     INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
-                    LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku";
-
+                    LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
+                    GROUP BY buku.id_buku";
             $result = mysqli_query($conn, $sql);
           ?>
           <div class="row">
@@ -144,7 +144,7 @@ if (!isset($_SESSION['username'])) {
                                   $reviewButton = '';
                                       if (!empty($row['isi_ulasan'])) {
                                           // If there is a review, show "Edit Ulasan" button
-                                          $reviewButton = "<a href='edit_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Edit Ulasan</a>";
+                                          $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
                                       } else {
                                           // If there is no review, show "Tambah Ulasan" button
                                           $reviewButton = "<a href='tambah_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-primary btn-sm'>Tambah Ulasan</a>";
