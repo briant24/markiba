@@ -36,6 +36,7 @@ if ($result_admin) {
             $_SESSION['user_id'] = $admin['id_admin']; // Sesuaikan dengan nama kolom yang tepat
             $_SESSION['username'] = $admin['username'];
             $_SESSION['nama'] = $admin['nama_admin'];
+            $_SESSION['usia'] = 9999;
             $_SESSION['is_admin'] = true;
 
             // Redirect ke halaman dashboard admin
