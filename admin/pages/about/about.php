@@ -73,7 +73,7 @@ $about_description = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $about_descrip
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown" style="display: flex; align-items: center;">
               <i class="mdi mdi-account-circle" style="font-size: 18pt; margin-right: 8px; color: #B66DFF"></i>
-              <span style="color: #B66DFF"><?php echo $_SESSION['nama_admin']; ?></span>
+              <span style="color: #B66DFF"><?php echo $_SESSION['nama']; ?></span>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

@@ -88,7 +88,7 @@
               <li><a href="">Ulasan</a></li>
               <li class=""><a href="artikel.php">Artikel</a></li>
               <li class=""><a href="about.php">About Us</a></li>
-              <li class=""><a href="admin/pages/auth/login.php">Login</a></li>
+              <li class=""><a href="auth/login.php">Login</a></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>

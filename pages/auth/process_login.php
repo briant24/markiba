@@ -23,7 +23,7 @@ if ($result) {
         // Simpan informasi pengguna dalam session
         $user = mysqli_fetch_assoc($result);
         $_SESSION['username'] = $user['username'];
-        $_SESSION['nama_admin'] = $user['nama_admin']; 
+        $_SESSION['nama'] = $user['nama_admin']; 
         $_SESSION['id_admin'] = $user['id_admin']; // Adjust with your actual column name
 
         // Redirect to the dashboard or home page

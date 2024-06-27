@@ -90,7 +90,13 @@ if (isset($_SESSION['username'])) {
                   <i class="fa fa-caret-down"></i>
                 </a>
                 <div class="dropdown-content">
-                  <a href="#">Profile</a>
+                  <?php
+                  if($_SESSION['is_admin']){
+                    echo '<a href="admin/index.php">Dashboard</a>';
+                  }else{
+                    echo '<a href="#">Profile</a>';
+                  }
+                  ?>
                   <a href="auth/process_logout.php">Keluar</a>
                 </div>
               </li>
