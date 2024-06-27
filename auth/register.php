@@ -15,6 +15,12 @@
   <link rel="stylesheet" href="../admin/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../admin/images/Markiba.png" />
+  <!-- CSS Cropper.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+
+  <!-- Script Cropper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
 </head>
 
 <body>
@@ -29,7 +35,7 @@
               </div>
               <h4>Daftar</h4>
               <h6 class="font-weight-light">Miliki Akun untuk mengakses semua fitur.</h6>
-              <form class="pt-3" action="process_register.php" method="post">
+              <form class="pt-3" action="process_register.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <input type="text" name="username" id="username" class="form-control form-control-lg"
                     placeholder="Username (maksimal 10 karakter)" maxlength="10" required>
@@ -51,6 +57,10 @@
                 <div class="form-group">
                   <label for="birthdate">Tanggal Lahir:</label>
                   <input type="date" id="birthdate" name="birthdate" class="form-control form-control-lg" required>
+                </div>
+                <div>
+                  <label for="profilePic">Foto Profil:</label>
+                  <input type="file" id="profilePic" name="profilePic" class="form-control-file" accept="image/*">
                 </div>
                 <div class="mt-3">
                   <button type="submit"
@@ -131,6 +141,85 @@
       });
     });
   </script>
-</body>
+  <script>
+  $(document).ready(function() {
+    var cropper;
 
+    // Event listener untuk input file
+    $('#profilePic').change(function(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(event) {
+        var imgData = event.target.result;
+        
+        // Tampilkan modal
+        $('#cropModal').modal({
+          backdrop: 'static',
+          keyboard: false
+        });
+
+        // Inisialisasi cropper
+        var image = document.getElementById('cropImage');
+        image.src = imgData;
+        cropper = new Cropper(image, {
+          aspectRatio: 1 / 1,
+          viewMode: 1,
+          movable: false,
+          zoomable: false,
+          rotatable: false,
+          scalable: false,
+          crop: function(event) {
+            // Dapat mengakses koordinat cropping dengan event.detail
+          }
+        });
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    // Event listener untuk tombol Simpan di modal
+    $('#cropButton').click(function() {
+      var croppedCanvas = cropper.getCroppedCanvas({
+        width: 200, // Ukuran hasil cropping yang diinginkan
+        height: 200,
+        fillColor: '#fff'
+      });
+
+      // Dapatkan data URL hasil cropping
+      var croppedDataUrl = croppedCanvas.toDataURL('image/jpeg');
+
+      // Gunakan data URL untuk tindakan selanjutnya, seperti menampilkan preview atau mengirim ke server
+      $('#previewProfilePic').attr('src', croppedDataUrl);
+      
+      // Sembunyikan modal
+      $('#cropModal').modal('hide');
+    });
+  });
+</script>
+
+<!-- Modal untuk preview dan cropping -->
+<div class="modal fade" id="cropModal" tabindex="-1" role="dialog" aria-labelledby="cropModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cropModalLabel">Crop Foto Profil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <img id="cropImage" src="#" alt="Crop Area" style="max-width: 100%; height: auto;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" id="cropButton">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
 </html>
