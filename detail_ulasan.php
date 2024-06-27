@@ -1,10 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['nama'])) {
-  header("Location: auth/login.php"); // Redirect to the login page
-  exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,6 +45,10 @@ https://templatemo.com/tm-582-tale-seo-agency
 <?php
 $activePage = 'ulasan';
 include 'header.php';
+if (!isset($_SESSION['nama'])) {
+  header("Location: auth/login.php"); // Redirect to the login page
+  exit();
+}
 ?>
 <body>
   <div class="happy-clients section">
