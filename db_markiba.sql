@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 24, 2024 at 02:11 PM
+-- Generation Time: Jun 27, 2024 at 01:57 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `about` (
   `id_abt` int NOT NULL,
-  `deskripsi` text COLLATE utf8mb4_general_ci NOT NULL
+  `deskripsi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -47,9 +47,9 @@ INSERT INTO `about` (`id_abt`, `deskripsi`) VALUES
 
 CREATE TABLE `admin` (
   `id_admin` int NOT NULL,
-  `nama_admin` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `username` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(10) COLLATE utf8mb4_general_ci NOT NULL
+  `nama_admin` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -68,12 +68,12 @@ INSERT INTO `admin` (`id_admin`, `nama_admin`, `username`, `password`) VALUES
 
 CREATE TABLE `artikel` (
   `id_artikel` int NOT NULL,
-  `judul_artikel` text COLLATE utf8mb4_general_ci NOT NULL,
-  `sumber` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `penulis` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_artikel` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sumber` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `penulis` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal` date NOT NULL,
   `gambar` longblob NOT NULL,
-  `isi_artikel` text COLLATE utf8mb4_general_ci NOT NULL
+  `isi_artikel` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -96,14 +96,14 @@ INSERT INTO `artikel` (`id_artikel`, `judul_artikel`, `sumber`, `penulis`, `tang
 CREATE TABLE `buku` (
   `id_buku` int NOT NULL,
   `id_kategori` int NOT NULL,
-  `jenis_buku` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `judul_buku` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_penulis` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `tahun_terbit` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_buku` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_buku` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_penulis` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun_terbit` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `gambar` longblob NOT NULL,
-  `sinopsis` text COLLATE utf8mb4_general_ci NOT NULL,
+  `sinopsis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `klasifikasi` int NOT NULL,
-  `ISBN` text COLLATE utf8mb4_general_ci NOT NULL
+  `ISBN` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -120,12 +120,34 @@ INSERT INTO `buku` (`id_buku`, `id_kategori`, `jenis_buku`, `judul_buku`, `nama_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `diskusi`
+--
+
+CREATE TABLE `diskusi` (
+  `id_diskusi` int NOT NULL,
+  `id_buku` int NOT NULL,
+  `isi_diskusi` text COLLATE utf8mb4_general_ci NOT NULL,
+  `id_admin` int NOT NULL,
+  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `diskusi`
+--
+
+INSERT INTO `diskusi` (`id_diskusi`, `id_buku`, `isi_diskusi`, `id_admin`, `waktu`) VALUES
+(1, 2012, 'Kira kira kapan dia sadar bahwa arga adalah kakaknya?', 2, '2024-06-25 13:41:00'),
+(2, 2013, 'Gimana kira kira perasaan Kiara ya?', 2, '2024-06-25 13:49:40');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `kategori`
 --
 
 CREATE TABLE `kategori` (
   `id_kategori` int NOT NULL,
-  `nama_kategori` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_kategori` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `gambar` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -143,14 +165,98 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `gambar`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `komentar_diskusi`
+--
+
+CREATE TABLE `komentar_diskusi` (
+  `id_komentar` int NOT NULL,
+  `id_diskusi` int NOT NULL,
+  `id_user` int NOT NULL,
+  `isi_komentar` text COLLATE utf8mb4_general_ci NOT NULL,
+  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `komentar_diskusi`
+--
+
+INSERT INTO `komentar_diskusi` (`id_komentar`, `id_diskusi`, `id_user`, `isi_komentar`, `waktu`) VALUES
+(1, 2, 1, 'pasti sedih banget kiaraa', '2024-06-26 13:25:44'),
+(2, 2, 1, 'gwss ya kiaraa', '2024-06-26 14:51:03'),
+(6, 2, 1, 'Bangkittt kiaraa', '2024-06-26 16:49:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sub_komentar`
+--
+
+CREATE TABLE `sub_komentar` (
+  `id_sub` int NOT NULL,
+  `id_komentar` int NOT NULL,
+  `id_user` int NOT NULL,
+  `isi_komentar` text COLLATE utf8mb4_general_ci NOT NULL,
+  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sub_komentar`
+--
+
+INSERT INTO `sub_komentar` (`id_sub`, `id_komentar`, `id_user`, `isi_komentar`, `waktu`) VALUES
+(1, 1, 1, 'iya ih jahat banget', '2024-06-27 01:13:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suka_diskusi`
+--
+
+CREATE TABLE `suka_diskusi` (
+  `id_suka` int NOT NULL,
+  `id_diskusi` int NOT NULL,
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `suka_diskusi`
+--
+
+INSERT INTO `suka_diskusi` (`id_suka`, `id_diskusi`, `id_user`) VALUES
+(1, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suka_komentar`
+--
+
+CREATE TABLE `suka_komentar` (
+  `id_suka` int NOT NULL,
+  `id_komentar` int NOT NULL,
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `suka_komentar`
+--
+
+INSERT INTO `suka_komentar` (`id_suka`, `id_komentar`, `id_user`) VALUES
+(1, 1, 1),
+(2, 6, 1),
+(3, 2, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ulasan`
 --
 
 CREATE TABLE `ulasan` (
   `id_ulasan` int NOT NULL,
   `id_buku` int NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `isi_ulasan` text COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `isi_ulasan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `rating` int NOT NULL,
   `tanggal` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -173,9 +279,9 @@ INSERT INTO `ulasan` (`id_ulasan`, `id_buku`, `username`, `isi_ulasan`, `rating`
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `username` varchar(10) NOT NULL,
-  `email` text NOT NULL,
-  `nama_user` varchar(50) NOT NULL,
+  `username` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` text COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_user` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `password` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_lahir` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -218,16 +324,56 @@ ALTER TABLE `buku`
   ADD KEY `fk_buku_kategori` (`id_kategori`);
 
 --
+-- Indexes for table `diskusi`
+--
+ALTER TABLE `diskusi`
+  ADD PRIMARY KEY (`id_diskusi`),
+  ADD KEY `id_admin` (`id_admin`);
+
+--
 -- Indexes for table `kategori`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
+-- Indexes for table `komentar_diskusi`
+--
+ALTER TABLE `komentar_diskusi`
+  ADD PRIMARY KEY (`id_komentar`),
+  ADD KEY `id_diskusi` (`id_diskusi`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `sub_komentar`
+--
+ALTER TABLE `sub_komentar`
+  ADD PRIMARY KEY (`id_sub`),
+  ADD KEY `id_komentar` (`id_komentar`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `suka_diskusi`
+--
+ALTER TABLE `suka_diskusi`
+  ADD PRIMARY KEY (`id_suka`),
+  ADD KEY `id_diskusi` (`id_diskusi`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `suka_komentar`
+--
+ALTER TABLE `suka_komentar`
+  ADD PRIMARY KEY (`id_suka`),
+  ADD KEY `id_komentar` (`id_komentar`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indexes for table `ulasan`
 --
 ALTER TABLE `ulasan`
-  ADD PRIMARY KEY (`id_ulasan`);
+  ADD PRIMARY KEY (`id_ulasan`),
+  ADD KEY `id_buku` (`id_buku`);
 
 --
 -- Indexes for table `users`
@@ -264,10 +410,40 @@ ALTER TABLE `buku`
   MODIFY `id_buku` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2015;
 
 --
+-- AUTO_INCREMENT for table `diskusi`
+--
+ALTER TABLE `diskusi`
+  MODIFY `id_diskusi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
   MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `komentar_diskusi`
+--
+ALTER TABLE `komentar_diskusi`
+  MODIFY `id_komentar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `sub_komentar`
+--
+ALTER TABLE `sub_komentar`
+  MODIFY `id_sub` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `suka_diskusi`
+--
+ALTER TABLE `suka_diskusi`
+  MODIFY `id_suka` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `suka_komentar`
+--
+ALTER TABLE `suka_komentar`
+  MODIFY `id_suka` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ulasan`
@@ -290,6 +466,46 @@ ALTER TABLE `users`
 --
 ALTER TABLE `buku`
   ADD CONSTRAINT `fk_buku_kategori` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
+
+--
+-- Constraints for table `diskusi`
+--
+ALTER TABLE `diskusi`
+  ADD CONSTRAINT `diskusi_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`);
+
+--
+-- Constraints for table `komentar_diskusi`
+--
+ALTER TABLE `komentar_diskusi`
+  ADD CONSTRAINT `komentar_diskusi_ibfk_1` FOREIGN KEY (`id_diskusi`) REFERENCES `diskusi` (`id_diskusi`),
+  ADD CONSTRAINT `komentar_diskusi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `sub_komentar`
+--
+ALTER TABLE `sub_komentar`
+  ADD CONSTRAINT `sub_komentar_ibfk_1` FOREIGN KEY (`id_komentar`) REFERENCES `komentar_diskusi` (`id_komentar`),
+  ADD CONSTRAINT `sub_komentar_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `suka_diskusi`
+--
+ALTER TABLE `suka_diskusi`
+  ADD CONSTRAINT `suka_diskusi_ibfk_1` FOREIGN KEY (`id_diskusi`) REFERENCES `diskusi` (`id_diskusi`),
+  ADD CONSTRAINT `suka_diskusi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `suka_komentar`
+--
+ALTER TABLE `suka_komentar`
+  ADD CONSTRAINT `suka_komentar_ibfk_1` FOREIGN KEY (`id_komentar`) REFERENCES `komentar_diskusi` (`id_komentar`),
+  ADD CONSTRAINT `suka_komentar_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `ulasan`
+--
+ALTER TABLE `ulasan`
+  ADD CONSTRAINT `ulasan_ibfk_1` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
