@@ -47,6 +47,20 @@ if ($result) {
     }
 }
 
+// Mengatur lebar kolom otomatis
+foreach(range('A','D') as $columnID) {
+    $sheet->getColumnDimension($columnID)->setAutoSize(true);
+}
+// Menambahkan filter
+$sheet->setAutoFilter('A1:D1');
+
+// Mengatur format untuk judul kolom
+$headerStyle = [
+    'font' => ['bold' => true],
+    'fill' => ['fillType' => 'solid', 'startColor' => ['rgb' => 'DDDDDD']]
+];
+
+$sheet->getStyle('A1:D1')->applyFromArray($headerStyle);
 // Set judul file Excel
 $filename = 'data_diskusi_' . date('Ymd') . '.xlsx';
 
