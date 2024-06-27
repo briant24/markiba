@@ -74,6 +74,23 @@ if (!isset($_SESSION['username'])) {
                         alert('Terjadi kesalahan: ' + message);
                     }
                 });
+                $(document).ready(function () {
+                    $('.btnTambahDiskusi').click(function () {
+                        var idBuku = $(this).data('idBuku');
+                        var isiDiskusi = $(this).data('isi_diskusi');
+                        $('#editIdDiskusi').val(idDiskusi);
+                        $('#editIsiDiskusi').val(isiDiskusi);
+                        $('#modalEditDiskusi').modal('show');
+                    });
+
+                    var status = "<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>";
+                    var message = "<?php echo isset($_GET['message']) ? $_GET['message'] : ''; ?>";
+                    if (status === 'success') {
+                        alert(message);
+                    } else if (status === 'error') {
+                        alert('Terjadi kesalahan: ' + message);
+                    }
+                });
 
                 // Ajax untuk memuat ulang bagian tabel setelah edit
                 function reloadTable() {
@@ -148,6 +165,9 @@ if (!isset($_SESSION['username'])) {
                                             <p class="card-description">Data diskusi dari tabel buku, diskusi, dan
                                                 komentar</p>
                                         </div>
+                                        <div class="text-right">
+                                            <a href="export_diskusi.php" class="btn btn-success btn-sm mdi mdi-file-excel">Download Data</a>
+                                        </div>
                                     </div>
 
                                     <table class="table">
@@ -190,7 +210,9 @@ if (!isset($_SESSION['username'])) {
                                                     }
                                                     echo "</td>";
                                                     $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Diskusi</a>";
+                                                    $downloadButton = "<a href='export_diskusi_by_book.php?id_buku=". $row['id_buku']."' class='btn btn-success btn-sm mdi mdi-file-excel'></a>";
                                                     echo "<td>" . $reviewButton . "</td>";
+                                                    echo "<td>" . $downloadButton . "</td>";
                                                     echo "</tr>";
                                                 }
                                             } else {
