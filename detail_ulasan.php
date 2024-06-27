@@ -259,7 +259,7 @@ include 'header.php';
                                             while ($row_sub_komentar = mysqli_fetch_assoc($result_sub_komentar)) {
                                                 echo '<div class="card mt-3">';
                                                 echo '<div class="card-body">';
-                                                echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_komentar['nama_user'] . '</span>';
+                                                echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_sub_komentar['nama_user'] . '</span>';
                                                 echo '<p class="card-text" style="color:black;">' . nl2br($row_sub_komentar['isi_komentar']) . '</p>';
                                                 echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_sub_komentar['waktu'] . '</small></p>';
                                                 echo '</div>';
