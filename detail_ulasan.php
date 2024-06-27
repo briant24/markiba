@@ -184,17 +184,18 @@ include 'header.php';
                                   echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_diskusi['waktu'] . '</small></p>';
                                   echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
                                   echo '<div style="display: flex; align-items: center;">';
-                                  $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_diskusi WHERE id_diskusi = $id_diskusi AND id_user = $_SESSION[user_id];";
-                                  $result_check_suka = mysqli_query($conn, $sql_check_suka);
-                                  $row_check_suka = mysqli_fetch_assoc($result_check_suka);
-                                  $sudah_suka = $row_check_suka['sudah_suka'];
-                                  if ($sudah_suka > 0) {
-                                      echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
-                                  } else {
-                                      echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_diskusi . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="diskusi">Suka</span>';
+                                  if(!$_SESSION['is_admin']){
+                                    $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_diskusi WHERE id_diskusi = $id_diskusi AND id_user = $_SESSION[user_id];";
+                                    $result_check_suka = mysqli_query($conn, $sql_check_suka);
+                                    $row_check_suka = mysqli_fetch_assoc($result_check_suka);
+                                    $sudah_suka = $row_check_suka['sudah_suka'];
+                                    if ($sudah_suka > 0) {
+                                        echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
+                                    } else {
+                                        echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_diskusi . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="diskusi">Suka</span>';
+                                    }
+                                    echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer; margin-right:10px;" data-id="' . $id_diskusi . '" tipe-komentar="diskusi">Balas</span>';
                                   }
-                                  echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer;" data-id="' . $id_diskusi . '" tipe-komentar="diskusi">Balas</span>';
-                                  echo '</div>';
                                   $sql_hitung_suka = "SELECT COUNT(*) AS jumlah_suka FROM suka_diskusi WHERE id_diskusi= $id_diskusi";
                                   $result_hitung_suka = mysqli_query($conn, $sql_hitung_suka);
                                   $row_hitung_suka = mysqli_fetch_assoc($result_hitung_suka);
@@ -203,7 +204,8 @@ include 'header.php';
                                       echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;">0 Suka</span>';
                                   } else {
                                       echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;"> '. $jumlah_suka .' Suka</span>';
-                                  }  
+                                  }
+                                  echo '</div>';  
                                   echo '</div>';
                                   echo '</div>';
                                   echo '<div>';
@@ -227,17 +229,19 @@ include 'header.php';
                                           echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
                                           echo '<div style="display: flex; align-items: center;">';
                                           $id_komentar = $row_komentar['id_komentar'];
-                                          $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_komentar WHERE id_komentar = $id_komentar AND id_user = $_SESSION[user_id];";
-                                          $result_check_suka = mysqli_query($conn, $sql_check_suka);
-                                          $row_check_suka = mysqli_fetch_assoc($result_check_suka);
-                                          $sudah_suka = $row_check_suka['sudah_suka'];
-                                          if ($sudah_suka > 0) {
-                                              echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
-                                          } else {
-                                              echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_komentar . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="komentar">Suka</span>';
-                                          }  
-                                          echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer;" data-id="' . $id_komentar . '" tipe-komentar="komentar">Balas</span>';
-                                          echo '</div>';
+                                          if(!$_SESSION['is_admin']){
+                                            $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_komentar WHERE id_komentar = $id_komentar AND id_user = $_SESSION[user_id];";
+                                            $result_check_suka = mysqli_query($conn, $sql_check_suka);
+                                            $row_check_suka = mysqli_fetch_assoc($result_check_suka);
+                                            $sudah_suka = $row_check_suka['sudah_suka'];
+                                            if ($sudah_suka > 0) {
+                                                echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
+                                            } else {
+                                                echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_komentar . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="komentar">Suka</span>';
+                                            }
+                                            echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer;" data-id="' . $id_komentar . '" tipe-komentar="komentar">Balas</span>';
+                                            echo '</div>';
+                                          }
                                           $sql_hitung_suka = "SELECT COUNT(*) AS jumlah_suka FROM suka_komentar WHERE id_komentar= $id_komentar";
                                           $result_hitung_suka = mysqli_query($conn, $sql_hitung_suka);
                                           $row_hitung_suka = mysqli_fetch_assoc($result_hitung_suka);

@@ -233,7 +233,7 @@ if (!isset($_SESSION['username'])) {
                         <div class="modal-body">
                             <input type="hidden" id="idBuku" name="idBuku">
                             <input type="hidden" id="idAdmin" name="idAdmin"
-                                value="<?php echo $_SESSION['admin_id']; ?>">
+                                value="<?php echo $_SESSION['user_id']; ?>">
                             <div class="form-group">
                                 <label for="isiDiskusi">Isi Diskusi</label>
                                 <textarea class="form-control" id="isiDiskusi" name="isiDiskusi" rows="3"

@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is not logged in
-if (!isset($_SESSION['admin_id'])) {
+if (!isset($_SESSION['is_admin'])) {
     header("Location: pages/auth/login.php"); // Redirect to the login page
     exit();
 }
@@ -37,7 +37,7 @@ if (!isset($_SESSION['admin_id'])) {
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown" style="display: flex; align-items: center;">
               <i class="mdi mdi-account-circle" style="font-size: 18pt; margin-right: 8px; color: #B66DFF"></i>
-              <span style="color: #B66DFF"><?php echo $_SESSION['nama_admin']; ?></span>
+              <span style="color: #B66DFF"><?php echo $_SESSION['nama']; ?></span>
           </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -93,7 +93,7 @@ if (!isset($_SESSION['admin_id'])) {
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Markiba</h4>
-                  <p>Welcome <?php echo $_SESSION['nama_admin']; ?>!</p>
+                  <p>Welcome <?php echo $_SESSION['nama']; ?>!</p>
                 </div>
               </div>
             </div>

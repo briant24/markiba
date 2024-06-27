@@ -33,9 +33,10 @@ if ($result_admin) {
             session_start();
 
             // Simpan informasi admin dalam session
-            $_SESSION['admin_id'] = $admin['id_admin']; // Sesuaikan dengan nama kolom yang tepat
+            $_SESSION['user_id'] = $admin['id_admin']; // Sesuaikan dengan nama kolom yang tepat
             $_SESSION['username'] = $admin['username'];
-            $_SESSION['nama_admin'] = $admin['nama_admin'];
+            $_SESSION['nama'] = $admin['nama_admin'];
+            $_SESSION['is_admin'] = true;
 
             // Redirect ke halaman dashboard admin
             header("Location: ../admin/index.php");
@@ -66,6 +67,7 @@ if ($result_user) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['usia'] = $umur;
             $_SESSION['nama'] = $user['nama_user'];
+            $_SESSION['is_admin'] = false;
 
             // Redirect ke halaman dashboard user
             header("Location: ../index.php");
