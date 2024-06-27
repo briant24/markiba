@@ -97,6 +97,7 @@ if (!isset($_SESSION['username'])) {
                                 <p class="card-description">Data buku dari tabel buku, kategori, dan ulasan</p>
                             </div>
                             <div class="text-right">
+                                <a href="export_buku.php" class="btn btn-success btn-sm mdi mdi-file-excel">Download Data</a>
                                 <a href="tambah_buku.php" class="btn btn-primary btn-sm">Tambah Buku</a>
                             </div>
                         </div>
