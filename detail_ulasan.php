@@ -1,3 +1,9 @@
+<?php
+if (!isset($_SESSION['nama'])) {
+  header("Location: auth/login.php"); // Redirect to the login page
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
