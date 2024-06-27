@@ -160,6 +160,128 @@ include 'header.php';
                             echo '</div>'; // penutup div class="row"
                         ?>
                       </div>
+                      <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="section-heading mt-4">
+                                <h2>Forum <em>Diskusi</em></h2>
+                            </div>
+                            <?php
+                            $sql_diskusi = "SELECT diskusi.* , admin.nama_admin 
+                            FROM diskusi 
+                            INNER JOIN admin
+                            ON diskusi.id_admin = admin.id_admin
+                            WHERE id_buku = $id_buku ORDER BY waktu DESC";
+                            $result_diskusi = mysqli_query($conn, $sql_diskusi);
+
+                            if (mysqli_num_rows($result_diskusi) > 0) {
+                              while ($row_diskusi = mysqli_fetch_assoc($result_diskusi)) {
+                                  $id_diskusi = $row_diskusi['id_diskusi'];
+                                  echo '<div class="card mt-3">';
+                                  echo '<div class="card-body">';
+                                  echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
+                                  echo '<div>';
+                                  echo '<p class="card-text" style="color:#000000;"><strong>' . nl2br($row_diskusi['isi_diskusi']) . '</strong></p>';
+                                  echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_diskusi['waktu'] . '</small></p>';
+                                  echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
+                                  echo '<div style="display: flex; align-items: center;">';
+                                  $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_diskusi WHERE id_diskusi = $id_diskusi AND id_user = $_SESSION[user_id];";
+                                  $result_check_suka = mysqli_query($conn, $sql_check_suka);
+                                  $row_check_suka = mysqli_fetch_assoc($result_check_suka);
+                                  $sudah_suka = $row_check_suka['sudah_suka'];
+                                  if ($sudah_suka > 0) {
+                                      echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
+                                  } else {
+                                      echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_diskusi . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="diskusi">Suka</span>';
+                                  }
+                                  echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer;" data-id="' . $id_diskusi . '" tipe-komentar="diskusi">Balas</span>';
+                                  echo '</div>';
+                                  $sql_hitung_suka = "SELECT COUNT(*) AS jumlah_suka FROM suka_diskusi WHERE id_diskusi= $id_diskusi";
+                                  $result_hitung_suka = mysqli_query($conn, $sql_hitung_suka);
+                                  $row_hitung_suka = mysqli_fetch_assoc($result_hitung_suka);
+                                  $jumlah_suka = $row_hitung_suka['jumlah_suka'];
+                                  if ($jumlah_suka == 0) {
+                                      echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;">0 Suka</span>';
+                                  } else {
+                                      echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;"> '. $jumlah_suka .' Suka</span>';
+                                  }  
+                                  echo '</div>';
+                                  echo '</div>';
+                                  echo '<div>';
+                                  echo '<p class="card-text"><strong>' . nl2br($row_diskusi['nama_admin']) . '</strong></p>';
+                                  echo '</div>';
+                                  echo '</div>';
+                                  $sql_komentar = "SELECT komentar_diskusi.*, users.nama_user
+                                  FROM komentar_diskusi
+                                  INNER JOIN users
+                                  on komentar_diskusi.id_user = users.id 
+                                  WHERE komentar_diskusi.id_diskusi = '$id_diskusi' ORDER BY komentar_diskusi.waktu ASC";
+                                  $result_komentar = mysqli_query($conn, $sql_komentar);
+                                  if (mysqli_num_rows($result_komentar) > 0) {
+                                      echo '<div class="mt-3">';
+                                      while ($row_komentar = mysqli_fetch_assoc($result_komentar)) {
+                                          echo '<div class="card mt-3">';
+                                          echo '<div class="card-body">';
+                                          echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_komentar['nama_user'] . '</span>';
+                                          echo '<p class="card-text" style="color:black;">' . nl2br($row_komentar['isi_komentar']) . '</p>';
+                                          echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_komentar['waktu'] . '</small></p>';
+                                          echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
+                                          echo '<div style="display: flex; align-items: center;">';
+                                          $id_komentar = $row_komentar['id_komentar'];
+                                          $sql_check_suka = "SELECT COUNT(*) AS sudah_suka FROM suka_komentar WHERE id_komentar = $id_komentar AND id_user = $_SESSION[user_id];";
+                                          $result_check_suka = mysqli_query($conn, $sql_check_suka);
+                                          $row_check_suka = mysqli_fetch_assoc($result_check_suka);
+                                          $sudah_suka = $row_check_suka['sudah_suka'];
+                                          if ($sudah_suka > 0) {
+                                              echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #00008B; margin-right:10px;">Sudah Disukai</span>';
+                                          } else {
+                                              echo '<span class="font-weight-normal mr-2 suka-link" style="font-size: 14px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_komentar . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="komentar">Suka</span>';
+                                          }  
+                                          echo '<span class="font-weight-normal mr-2 balas-link" style="font-size: 14px; color: black; cursor: pointer;" data-id="' . $id_komentar . '" tipe-komentar="komentar">Balas</span>';
+                                          echo '</div>';
+                                          $sql_hitung_suka = "SELECT COUNT(*) AS jumlah_suka FROM suka_komentar WHERE id_komentar= $id_komentar";
+                                          $result_hitung_suka = mysqli_query($conn, $sql_hitung_suka);
+                                          $row_hitung_suka = mysqli_fetch_assoc($result_hitung_suka);
+                                          $jumlah_suka = $row_hitung_suka['jumlah_suka'];
+                                          if ($jumlah_suka == 0) {
+                                              echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;">0 Suka</span>';
+                                          } else {
+                                              echo '<span class="font-weight-normal mr-2 suka-link" style=" font-size: 14px; color: #6006E6; margin-right:10px;"> '. $jumlah_suka .' Suka</span>';
+                                          }  
+                                          echo '</div>';
+                                          $sql_sub_komentar = "SELECT sub_komentar.*, users.nama_user
+                                          FROM sub_komentar
+                                          INNER JOIN users
+                                          on sub_komentar.id_user = users.id 
+                                          WHERE sub_komentar.id_komentar = '$id_komentar' ORDER BY sub_komentar.waktu ASC";
+                                          $result_sub_komentar = mysqli_query($conn, $sql_sub_komentar);
+                                          if (mysqli_num_rows($result_sub_komentar) > 0) {
+                                            echo '<div class="mt-3">';
+                                            while ($row_sub_komentar = mysqli_fetch_assoc($result_sub_komentar)) {
+                                                echo '<div class="card mt-3">';
+                                                echo '<div class="card-body">';
+                                                echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_komentar['nama_user'] . '</span>';
+                                                echo '<p class="card-text" style="color:black;">' . nl2br($row_sub_komentar['isi_komentar']) . '</p>';
+                                                echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_sub_komentar['waktu'] . '</small></p>';
+                                                echo '</div>';
+                                                echo '</div>';
+                                            }
+                                            echo '</div>';
+                                          }
+                                          echo '</div>';
+                                          echo '</div>';
+                                      }
+                                  } else {
+                                      echo '<p>Belum ada komentar.</p>';
+                                  }                                  
+                                  echo '</div>';
+                                  echo '</div>';
+                              }
+                            } else {
+                              echo '<p>Tidak ada diskusi untuk buku ini.</p>';
+                            }
+                            ?>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -185,13 +307,113 @@ include 'header.php';
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
   <script src="assets/js/isotope.min.js"></script>
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('.suka-link').click(function() {
+        var idDiskusi = $(this).attr('data-id-diskusi');
+        var idUser = $(this).attr('user-id');
+        var tipeSuka = $(this).attr('tipe-suka');
+        console.log(idDiskusi, idUser, tipeSuka);
+        var sukaLink = $(this); // Simpan elemen tombol suka
+        $.ajax({
+            type: 'POST',
+            url: 'proses_suka.php',
+            data: {
+              id_diskusi: idDiskusi,
+              id_user: idUser,
+              tipe: tipeSuka
+            },
+            success: function(response) {
+                // Handle success response
+                console.log('Berhasil menambah suka.');
+                // Ubah tampilan tombol menjadi "Sudah Disukai"
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle error response jika diperlukan
+                console.error('Gagal menambah suka: ' + error);
+            }
+        });
+    });
+  });
+  </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const balasLinks = document.querySelectorAll('.balas-link');
+        const modalBalas = new bootstrap.Modal(document.getElementById('modalBalas'));
+        
+        balasLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const idDiskusi = this.getAttribute('data-id');
+                const tipeKomentar = this.getAttribute('tipe-komentar');
+                document.getElementById('id_diskusi').value = idDiskusi;
+                document.getElementById('tipe_komentar').value = tipeKomentar;
+                modalBalas.show(); // Tampilkan modal
+            });
+        });
+
+        // Tambahkan event listener untuk form submit
+        const formKomentar = document.getElementById('formKomentar');
+        formKomentar.addEventListener('submit', function(event) {
+            event.preventDefault(); // Menghentikan pengiriman form bawaan
+
+            // Ambil data dari form
+            const formData = new FormData(formKomentar);
+
+            // Kirim data menggunakan AJAX
+            $.ajax({
+                url: 'proses_komentar.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Sukses: lakukan apa yang diperlukan (misalnya, sembunyikan modal, reset form, dll.)
+                    modalBalas.hide();
+                    formKomentar.reset();
+                    alert('Komentar berhasil dikirim!');
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Error handling
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengirim komentar.');
+                }
+            });
+        });
+    });
+</script>
+
+  <!-- Modal Balas -->
+  <div class="modal fade" id="modalBalas" tabindex="-1" aria-labelledby="modalBalasLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="modalBalasLabel">Balas Diskusi</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <!-- Form komentar disini -->
+                  <form id="formKomentar" action="proses_komentar.php" method="POST">
+                      <div class="mb-3">
+                          <label for="komentar" class="form-label">Komentar:</label>
+                          <textarea class="form-control" id="isi_komentar" name="isi_komentar"></textarea>
+                      </div>
+                      <!-- Tambahan: mungkin perlu input hidden untuk id_diskusi -->
+                      <input type="hidden" id="id_diskusi" name="id_diskusi" value="">
+                      <input type="hidden" id="tipe_komentar" name="tipe_komentar" value="">
+                      <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 </body>
-
 </html>
