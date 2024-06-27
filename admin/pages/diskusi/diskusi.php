@@ -76,11 +76,9 @@ if (!isset($_SESSION['username'])) {
                 });
                 $(document).ready(function () {
                     $('.btnTambahDiskusi').click(function () {
-                        var idBuku = $(this).data('idBuku');
-                        var isiDiskusi = $(this).data('isi_diskusi');
-                        $('#editIdDiskusi').val(idDiskusi);
-                        $('#editIsiDiskusi').val(isiDiskusi);
-                        $('#modalEditDiskusi').modal('show');
+                        var idBuku = $(this).data('id_buku');
+                        $('#idBuku').val(idBuku);
+                        $('#modalTambahDiskusi').modal('show');
                     });
 
                     var status = "<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>";
