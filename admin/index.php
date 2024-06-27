@@ -3,7 +3,7 @@ session_start();
 
 // Check if the user is not logged in
 if (!isset($_SESSION['is_admin'])) {
-    header("Location: /markib/auth/login.php"); // Redirect to the login page
+    header("Location: /markiba/auth/login.php"); // Redirect to the login page
     exit();
 }
 ?>
