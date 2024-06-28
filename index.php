@@ -25,7 +25,7 @@ $ip_address = get_client_ip();
 $query = "INSERT INTO pengunjung (ip_address) VALUES ('$ip_address')";
 
 mysqli_query($conn, $query);
-mysqli_close($conns);
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
