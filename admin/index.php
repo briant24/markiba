@@ -24,6 +24,26 @@ if (!isset($_SESSION['is_admin'])) {
   <link rel="stylesheet" href="css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/Markiba.png" />
+  <?php
+  include '../koneksi.php';
+  $query = "SELECT DATE(waktu) AS tanggal, COUNT(*) AS jumlah_pengunjung FROM pengunjung GROUP BY DATE(waktu)";
+  $result = $conn->query($query);
+
+  $data = array();
+  while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
+  }
+  $totalPengunjung = 0;
+  foreach ($data as $item) {
+    $totalPengunjung += $item['jumlah_pengunjung'];
+  }
+
+  // Mengubah data menjadi format JSON
+  $data_json = json_encode($data);
+
+  // Menutup koneksi ke database
+  $conn->close();
+  ?>
 </head>
 <body>
   <div class="container-scroller">
@@ -92,8 +112,14 @@ if (!isset($_SESSION['is_admin'])) {
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Markiba</h4>
-                  <p>Welcome <?php echo $_SESSION['nama']; ?>!</p>
+                  <h4 class="card-title">Grafik Pengunjung</h4>
+                  <div style="width: 800px; margin: 0 auto;">
+                      <canvas id="grafik"></canvas>
+                  </div>
+                  <div style="text-align: center; margin-top: 20px;">
+                      <p><strong>Total Pengunjung</strong></p>
+                      <div id="totalPengunjung"><?php echo $totalPengunjung ?></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -118,6 +144,7 @@ if (!isset($_SESSION['is_admin'])) {
   <!-- plugins:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <script src="vendors/js/vendor.bundle.addons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <!-- End plugin js for this page-->
@@ -128,6 +155,45 @@ if (!isset($_SESSION['is_admin'])) {
   <!-- Custom js for this page-->
   <script src="js/dashboard.js"></script>
   <!-- End custom js for this page-->
+
+  <script>
+        // Ambil data dari PHP dan konversi menjadi objek JavaScript
+        var data_php = <?php echo $data_json; ?>;
+        
+        // Pisahkan tanggal dan jumlah_pengunjung dari objek data
+        var tanggal = data_php.map(function(item) {
+            return item.tanggal;
+        });
+
+        var jumlah_pengunjung = data_php.map(function(item) {
+            return item.jumlah_pengunjung;
+        });
+
+        // Buat grafik menggunakan Chart.js
+        var ctx = document.getElementById('grafik').getContext('2d');
+        var grafik = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: tanggal,
+                datasets: [{
+                    label: 'Jumlah Pengunjung',
+                    data: jumlah_pengunjung,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)', // Warna isi batang
+                    borderColor: 'rgba(54, 162, 235, 1)', // Warna garis batang
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
