@@ -18,6 +18,47 @@ if (isset($_SESSION['username'])) {
 
 <!-- Memuat Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#profile-link').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: 'get_profile_user.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        var birthdate = new Date(response.tanggal_lahir);
+        var today = new Date();
+        var age = today.getFullYear() - birthdate.getFullYear();
+        var m = today.getMonth() - birthdate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+          age--;
+        }
+
+        $('#profile-info').html(`
+          <div>
+            <img src="data:image/jpeg;base64,${response.photo_blob}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
+          </div>
+          <div>
+            <p style="margin-top: 10px; font-weight: bold;">${response.nama_user}</p>
+            <p>${birthdate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} (${age} tahun)</p>
+          </div>
+        `);
+        
+        $('#profileModal').modal('show');
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching profile:', error);
+        alert('Error fetching profile. Please try again.');
+      }
+    });
+  });
+
+  $('#profileModal').on('hidden.bs.modal', function (e) {
+    $('#profile-info').html('');
+  });
+});
+</script>
 
 <style>
     header {
@@ -94,7 +135,7 @@ if (isset($_SESSION['username'])) {
                   if($_SESSION['is_admin']){
                     echo '<a href="admin/index.php">Dashboard</a>';
                   }else{
-                    echo '<a href="#">Profile</a>';
+                    echo '<a href="#" id="profile-link">Profile</a>';
                   }
                   ?>
                   <a href="auth/process_logout.php">Keluar</a>
@@ -110,6 +151,24 @@ if (isset($_SESSION['username'])) {
     </div>
   </header>
   <!-- ***** Header Area End ***** -->
+  <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">Profil Pengguna</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div id="profile-info">
+          <!-- Data profil pengguna akan dimasukkan di sini -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script>
     let lastScrollTop = 0;
     const header = document.getElementById('main-header');
