@@ -24,44 +24,44 @@ if (isset($_SESSION['username'])) {
       top: 0;
     }
 
-  .dropdown {
-    position: relative; /* Memastikan posisi relatif untuk elemen induk */
-    cursor: pointer;
-  }
-
-/* Dropdown button */
-.dropdown .dropbtn {
-  font-size: 16px;
-  border: none;
-  outline: none;
-  color: white;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
+    .dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-/* Dropdown content (hidden by default) */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #BD38FD;
-  min-width: 100px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1000;
+    display: none;
+    position: absolute;
+    background-color: #C23BFE;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    padding: 8px 0;
+    left: 0; 
+    margin-top: 8px;
 }
-/* Links inside the dropdown */
+
 .dropdown-content a {
-  text-align: center;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-align:center;
+    display: block;
 }
 
-/* Add a grey background color to dropdown links on hover */
 .dropdown-content a:hover {
-  background-color: #5701E4;
+    background-color: #5B03E4;
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-  display: block;
+    display: block;
+}
+
+.dropdown .dropbtn {
+    text-decoration: none;
+    color: black;
+    padding: 8px;
 }
 
 </style>
@@ -86,8 +86,8 @@ if (isset($_SESSION['username'])) {
               }else{
                 ?>
               <li class="dropdown">
-                <a class="dropbtn"><?php echo $nama_pengguna?>
-                  <i class="fa fa-caret-down"></i>
+                <a class="dropbtn">
+                <i class="fa fa-user-circle" style="font-size: 35px;"></i>
                 </a>
                 <div class="dropdown-content">
                   <?php
