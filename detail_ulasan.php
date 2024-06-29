@@ -224,7 +224,7 @@ include 'header.php';
                                     if ($sudah_suka > 0) {
                                         echo '<span class="mdi mdi-heart mr-2 suka-link" style=" font-size: 30px; color: #00008B; margin-right:10px;"></span>';
                                     } else {
-                                        echo '<span class="mdi mdi-heart-outline mr-2 suka-link" style="font-size: 30px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_diskusi . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="diskusi">Suka</span>';
+                                        echo '<span class="mdi mdi-heart-outline mr-2 suka-link" style="font-size: 30px; color: black; cursor: pointer; margin-right: 10px;" data-id-diskusi="' . $id_diskusi . '" user-id="' . $_SESSION['user_id'] . '" tipe-suka="diskusi"></span>';
                                     }
                                     echo '<span class="mdi mdi-comment-processing-outline mr-2 balas-link" style="font-size: 30px; color: black; cursor: pointer; margin-right:10px;" data-id="' . $id_diskusi . '" tipe-komentar="diskusi"></span>';
                                   }
