@@ -16,6 +16,12 @@
   <link rel="stylesheet" href="../admin/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../admin/images/Markiba.png" />
+  <!-- SweetAlert CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+  <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 
 <body>
@@ -30,15 +36,7 @@
               </div>
               <h4>Login</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              
-              <?php
-              // Tampilkan pesan kesalahan jika login gagal
-              if (isset($_GET['error']) && $_GET['error'] == 'InvalidCredentials') {
-                echo '<div class="alert alert-danger" role="alert">Username or password is incorrect.</div>';
-              }
-              ?>
-              
-              <form class="pt-3" action="process_login.php" method="post">
+              <form id="loginForm" class="pt-3">
                 <div class="form-group">
                   <input type="text" name="username" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" required>
                 </div>
@@ -70,6 +68,63 @@
   <script src="../admin/js/off-canvas.js"></script>
   <script src="../admin/js/misc.js"></script>
   <!-- endinject -->
+  <script>
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Menghentikan pengiriman form default
+      
+      // Mengambil nilai dari form
+      var formData = new FormData(this);
+
+      // Kirim data ke server menggunakan AJAX
+      fetch('process_login.php', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              if (data.isAdmin) {
+                  // Tampilkan Sweet Alert untuk admin
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Login Berhasil sebagai Admin!',
+                      text: 'Selamat datang kembali, Admin.'
+                  }).then(() => {
+                      // Redirect ke halaman admin
+                      window.location.href = '../admin/index.php';
+                  });
+              } else {
+                  // Tampilkan Sweet Alert untuk user
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Login Berhasil!',
+                      text: 'Selamat datang kembali.'
+                  }).then(() => {
+                      // Redirect ke halaman user
+                      window.location.href = '../index.php';
+                  });
+              }
+          } else {
+              // Tampilkan Sweet Alert untuk login gagal
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Login Gagal!',
+                  text: 'Username atau password salah.'
+              });
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          // Tampilkan pesan error umum jika terjadi kesalahan
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Terjadi kesalahan. Silakan coba lagi nanti.'
+          });
+      });
+  });
+  </script>
+
 </body>
 
 </html>

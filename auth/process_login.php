@@ -20,6 +20,8 @@ mysqli_stmt_bind_param($stmt_user, "s", $username);
 mysqli_stmt_execute($stmt_user);
 $result_user = mysqli_stmt_get_result($stmt_user);
 
+$response = array('success' => false);
+
 // Periksa hasil query untuk admin
 if ($result_admin) {
     // Periksa jumlah baris yang ditemukan
@@ -33,15 +35,15 @@ if ($result_admin) {
             session_start();
 
             // Simpan informasi admin dalam session
-            $_SESSION['user_id'] = $admin['id_admin']; // Sesuaikan dengan nama kolom yang tepat
+            $_SESSION['user_id'] = $admin['id_admin'];
             $_SESSION['username'] = $admin['username'];
             $_SESSION['nama'] = $admin['nama_admin'];
             $_SESSION['usia'] = 9999;
             $_SESSION['is_admin'] = true;
 
-            // Redirect ke halaman dashboard admin
-            header("Location: ../admin/index.php");
-            exit();
+            // Set response
+            $response['success'] = true;
+            $response['isAdmin'] = true;
         }
     }
 }
@@ -62,24 +64,22 @@ if ($result_user) {
             ->diff(new DateTime('today'))
             ->y;
 
-
             // Simpan informasi user dalam session
-            $_SESSION['user_id'] = $user['id']; // Sesuaikan dengan nama kolom yang tepat
+            $_SESSION['user_id'] = $user['id']; 
             $_SESSION['username'] = $user['username'];
             $_SESSION['usia'] = $umur;
             $_SESSION['nama'] = $user['nama_user'];
             $_SESSION['is_admin'] = false;
 
-            // Redirect ke halaman dashboard user
-            header("Location: ../index.php");
-            exit();
+            // Set response
+            $response['success'] = true;
+            $response['isAdmin'] = false;
         }
     }
 }
 
-// Jika tidak ada yang cocok (login gagal)
-header("Location: login.php?error=InvalidCredentials");
-exit();
+// Kirimkan respons dalam format JSON
+echo json_encode($response);
 
 // Tutup koneksi
 mysqli_stmt_close($stmt_admin);
