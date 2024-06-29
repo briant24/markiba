@@ -1,6 +1,17 @@
+<script>
+  window.onload = function() {
+    if (window.history && window.history.pushState) {
+      window.history.pushState('forward', null, './#forward');
+      window.onpopstate = function(event) {
+        if (event.state === 'forward') {
+          location.reload(true);
+        }
+      };
+    }
+  };
+</script>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -71,34 +82,11 @@
     }
   </style>
 </head>
-
+<?php
+$activePage = '';
+include 'header.php';
+?>
 <body>
-
-  <header class="header-area header-sticky" style="top: 0px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <a href="index.php" class="logo">
-              <img src="assets/images/Markiba3.png" alt="" style="width: 250px;" />
-            </a>
-            <ul class="nav">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="kategori.php">Kategori</a></li>
-              <li><a href="">Ulasan</a></li>
-              <li class=""><a href="artikel.php">Artikel</a></li>
-              <li class=""><a href="about.php">About Us</a></li>
-              <li class=""><a href="auth/login.php">Login</a></li>
-            </ul>
-            <a class='menu-trigger'>
-              <span>Menu</span>
-            </a>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </header>
-
   <div class="happy-clients section">
     <div class="container">
       <div class="row">
