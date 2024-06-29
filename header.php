@@ -74,26 +74,26 @@ $(document).ready(function() {
     display: none;
     position: absolute;
     background-color: #C23BFE;
-    min-width: 160px;
+    min-width: 200px; /* Sesuaikan lebar sesuai kebutuhan */
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     border-radius: 5px;
-    padding: 8px 0;
-    left: 0; 
+    left: 0;
     margin-top: 8px;
 }
 
 .dropdown-content a {
     color: black;
-    padding: 12px 16px;
     text-decoration: none;
-    text-align:center;
     display: block;
+    white-space: nowrap; /* Agar teks tidak mematah-matah */
+    text-align: center;
 }
 
 .dropdown-content a:hover {
     background-color: #5B03E4;
 }
+
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -102,7 +102,6 @@ $(document).ready(function() {
 .dropdown .dropbtn {
     text-decoration: none;
     color: black;
-    padding: 8px;
 }
 
 </style>
@@ -116,9 +115,17 @@ $(document).ready(function() {
           </a>
           <ul class="nav">
               <li><a href="<?php echo ($activePage == 'home') ? '#' : 'index.php'; ?>" <?php echo ($activePage == 'home') ? 'class="active"' : ''; ?>>Home</a></li>
-              <li><a href="<?php echo ($activePage == 'kategori') ? '#' : 'kategori.php'; ?>" <?php echo ($activePage == 'kategori') ? 'class="active"' : ''; ?>>Kategori</a></li>
+              <li class="dropdown">
+                  <a href="<?php echo ($activePage == 'kategori') ? '#' : 'kategori.php'; ?>" <?php echo ($activePage == 'kategori') ? 'class="active"' : ''; ?>>Kategori <i class="fa fa-caret-down"></i></a>
+                  <div class="dropdown-content">
+                      <a href="ulasan_kategori.php?id_kategori=1">Kesusastraan</a>
+                      <a href="ulasan_kategori.php?id_kategori=2">Filsafat & Psikologi</a>
+                      <a href="ulasan_kategori.php?id_kategori=3">Sejarah & Geografi</a>
+                      <!-- Tambahkan submenu sesuai kebutuhan -->
+                  </div>
+              </li>
               <li><a href="<?php echo ($activePage == 'ulasan') ? '#' : 'ulasan.php'; ?>" <?php echo ($activePage == 'ulasan') ? 'class="active"' : ''; ?>>Ulasan</a></li>
-              <li><a href="<?php echo ($activePage == 'artikel') ? '#' : 'artikel.php'; ?>" <?php echo ($activePage == 'artikel') ? 'class="active"' : ''; ?>>Artikel</a></li>
+              <li><a href="<?php echo ($activePage == 'artikel') ? '#' : 'artikel.php'; ?>" style="padding-right: 10px;" <?php echo ($activePage == 'artikel') ? 'class="active"' : ''; ?>>Artikel</a></li>
               <li><a href="<?php echo ($activePage == 'about') ? '#' : 'about.php'; ?>" <?php echo ($activePage == 'about') ? 'class="active"' : ''; ?>>About Us</a></li>
               <?php if ($login_status==false) {
                 ?>
@@ -127,10 +134,10 @@ $(document).ready(function() {
               }else{
                 ?>
               <li class="dropdown">
-                <a class="dropbtn">
+                <a class="dropbtn"  style="padding-top:8px;">
                 <i class="fa fa-user-circle" style="font-size: 35px;"></i>
                 </a>
-                <div class="dropdown-content">
+                <div class="dropdown-content" style="min-width:150px;">
                   <?php
                   if($_SESSION['is_admin']){
                     echo '<a href="admin/index.php">Dashboard</a>';
