@@ -29,6 +29,7 @@ if (!isset($_SESSION['nama'])) {
   <link rel="stylesheet" href="assets/css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!--
 
@@ -98,8 +99,16 @@ include 'header.php';
                               $klasifikasi_buku = (int) $row['klasifikasi'];
                               $umur_pengguna = $_SESSION['usia'];
                               if($umur_pengguna < $klasifikasi_buku){
-                                    echo '<script>alert("Buku ini tidak cocok untuk Anda.");</script>';
-                                    echo '<script>window.location.replace("index.php");</script>';
+                                    echo '<script>';
+                                    echo 'Swal.fire({';
+                                    echo '  title: "Peringatan!",';
+                                    echo '  text: "Buku ini tidak cocok untuk Anda.",';
+                                    echo '  icon: "warning",';
+                                    echo '  confirmButtonText: "OK"';
+                                    echo '}).then(function() {';
+                                    echo '  window.location.replace("index.php");';
+                                    echo '});';
+                                    echo '</script>';
                                     exit();
                               }
                               echo '<div class="col-lg-5 align-self-center text-center">';
