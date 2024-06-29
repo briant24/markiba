@@ -230,7 +230,7 @@ include 'header.php';
                                   }
                                   echo '</div>';
                                   echo '</div>';
-                                  $sql_komentar = "SELECT komentar_diskusi.*, users.nama_user
+                                  $sql_komentar = "SELECT komentar_diskusi.*, users.nama_user, users.photo
                                   FROM komentar_diskusi
                                   INNER JOIN users
                                   on komentar_diskusi.id_user = users.id 
@@ -239,9 +239,14 @@ include 'header.php';
                                   if (mysqli_num_rows($result_komentar) > 0) {
                                       echo '<div class="mt-3">';
                                       while ($row_komentar = mysqli_fetch_assoc($result_komentar)) {
+                                          $imageData = $row_komentar['photo'];
+                                          $base64Image = base64_encode($imageData);
                                           echo '<div class="card mt-3">';
                                           echo '<div class="card-body">';
+                                          echo '<div>';
+                                          echo '<img src="data:image/jpeg;base64,' . $base64Image . '" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; object-position: center center; padding-left: 0px; margin-right: 10px;" />';
                                           echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_komentar['nama_user'] . '</span>';
+                                          echo '</div>';
                                           echo '<p class="card-text" style="color:black;">' . nl2br($row_komentar['isi_komentar']) . '</p>';
                                           echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_komentar['waktu'] . '</small></p>';
                                           echo '<div style="display: flex; justify-content: space-between; align-items: flex-start;">';
@@ -273,7 +278,7 @@ include 'header.php';
                                           }
                                           echo '</div>';
                                           
-                                          $sql_sub_komentar = "SELECT sub_komentar.*, users.nama_user
+                                          $sql_sub_komentar = "SELECT sub_komentar.*, users.nama_user, users.photo
                                           FROM sub_komentar
                                           INNER JOIN users
                                           on sub_komentar.id_user = users.id 
@@ -282,9 +287,14 @@ include 'header.php';
                                           if (mysqli_num_rows($result_sub_komentar) > 0) {
                                             echo '<div class="mt-3">';
                                             while ($row_sub_komentar = mysqli_fetch_assoc($result_sub_komentar)) {
+                                                $imageData = $row_sub_komentar['photo'];
+                                                $base64Image = base64_encode($imageData);
                                                 echo '<div class="card mt-3">';
                                                 echo '<div class="card-body">';
+                                                echo '<div>';
+                                                echo '<img src="data:image/jpeg;base64,' . $base64Image . '" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; object-position: center center; padding-left: 0px; margin-right: 10px;" />';
                                                 echo '<span class="card-title font-weight-normal" style="font-size: 14px; color:#935AEC">' . $row_sub_komentar['nama_user'] . '</span>';
+                                                echo '</div>';
                                                 echo '<p class="card-text" style="color:black;">' . nl2br($row_sub_komentar['isi_komentar']) . '</p>';
                                                 echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_sub_komentar['waktu'] . '</small></p>';
                                                 echo '</div>';
