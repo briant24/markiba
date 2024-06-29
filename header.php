@@ -55,7 +55,7 @@ $(document).ready(function() {
     e.preventDefault();
     $('#logoutModal').modal('show');
   });
-  $('#logoutModal button.btn-warning').click(function() {
+  $('#logoutModal button.btn-danger').click(function() {
     window.location.href = 'auth/process_logout.php';
   });
 });
