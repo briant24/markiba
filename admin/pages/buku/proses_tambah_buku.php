@@ -3,14 +3,14 @@
 include '../../../koneksi.php';
 
 // Tangkap data dari form
-$judul_buku = $_POST['judul_buku'];
-$nama_penulis = $_POST['nama_penulis'];
-$tahun_terbit = $_POST['tahun_terbit'];
-$id_kategori = $_POST['id_kategori'];
-$jenis_buku = $_POST['jenis_buku'];
-$sinopsis = $_POST['sinopsis'];
-$isbn = $_POST['ISBN'];
-$klasifikasi = $_POST['klasifikasi'];
+$judul_buku = mysqli_real_escape_string($conn, $_POST['judul_buku']);
+$nama_penulis = mysqli_real_escape_string($conn, $_POST['nama_penulis']);
+$tahun_terbit = mysqli_real_escape_string($conn, $_POST['tahun_terbit']);
+$id_kategori = mysqli_real_escape_string($conn, $_POST['id_kategori']);
+$jenis_buku = mysqli_real_escape_string($conn, $_POST['jenis_buku']);
+$sinopsis = mysqli_real_escape_string($conn, $_POST['sinopsis']);
+$isbn = mysqli_real_escape_string($conn, $_POST['ISBN']);
+$klasifikasi = mysqli_real_escape_string($conn, $_POST['klasifikasi']);
 
 // Tangkap data file gambar
 $gambar = $_FILES['gambar']['tmp_name'];
@@ -27,7 +27,7 @@ if (mysqli_query($conn, $sql)) {
     exit();
 } else {
     // Jika terjadi kesalahan, redirect ke halaman buku dengan status error dan pesan kesalahan
-    header("Location: buku.php?status=error&message=" . mysqli_error($conn));
+    header("Location: buku.php?status=error&message=" . urlencode(mysqli_error($conn)));
     exit();
 }
 
