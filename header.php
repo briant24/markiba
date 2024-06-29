@@ -34,7 +34,6 @@ $(document).ready(function() {
         if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
           age--;
         }
-
         $('#profile-info').html(`
           <div>
             <img src="data:image/jpeg;base64,${response.photo_blob}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
@@ -44,7 +43,6 @@ $(document).ready(function() {
             <p>${birthdate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} (${age} tahun)</p>
           </div>
         `);
-        
         $('#profileModal').modal('show');
       },
       error: function(xhr, status, error) {
@@ -53,9 +51,12 @@ $(document).ready(function() {
       }
     });
   });
-
-  $('#profileModal').on('hidden.bs.modal', function (e) {
-    $('#profile-info').html('');
+  $('#logout-link').click(function(e) {
+    e.preventDefault();
+    $('#logoutModal').modal('show');
+  });
+  $('#logoutModal button.btn-warning').click(function() {
+    window.location.href = 'auth/process_logout.php';
   });
 });
 </script>
@@ -145,7 +146,7 @@ $(document).ready(function() {
                     echo '<a href="#" id="profile-link">Profile</a>';
                   }
                   ?>
-                  <a href="auth/process_logout.php">Keluar</a>
+                  <a id="logout-link" href="#">Keluar</a>
                 </div>
               </li>
               <?php
@@ -159,22 +160,35 @@ $(document).ready(function() {
   </header>
   <!-- ***** Header Area End ***** -->
   <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">Profil Pengguna</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <div id="profile-info">
-          <!-- Data profil pengguna akan dimasukkan di sini -->
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="profileModalLabel">Profil Pengguna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div id="profile-info">
+            <!-- Data profil pengguna akan dimasukkan di sini -->
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-center" style="display: block;">
+          <h5 class="modal-title" id="logoutModalLabel">Beneran Mau Keluar?</h5>
+        </div>
+        <div class="modal-body text-center">
+          <div>
+            <button type="submit" data-bs-dismiss="modal" class="btn btn-success">Batal</button>
+            <button type="submit" class="btn btn-danger">Keluar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     let lastScrollTop = 0;
