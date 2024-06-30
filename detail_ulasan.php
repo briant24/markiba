@@ -1,10 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['nama'])) {
-  header("Location: auth/login.php"); // Redirect to the login page
-  exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,6 +48,19 @@ https://templatemo.com/tm-582-tale-seo-agency
 <?php
 $activePage = 'ulasan';
 include 'header.php';
+if (!isset($_SESSION['nama'])) {
+  echo '<script>';
+  echo 'Swal.fire({';
+  echo '  title: "Peringatan!",';
+  echo '  text: "Silahkan Login Terlebih Dahulu.",';
+  echo '  icon: "warning",';
+  echo '  confirmButtonText: "OK"';
+  echo '}).then(function() {';
+  echo '  window.location.replace("auth/login.php");';
+  echo '});';
+  echo '</script>';
+  exit();
+}
 ?>
 <body>
   <div class="happy-clients section">
