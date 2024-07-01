@@ -116,27 +116,14 @@ include 'header.php';
           $page = $_GET['page'];
         }
         $start_from = ($page - 1) * $results_per_page;
-
-        // Initialize category filter
-        $categoryFilter = "";
-        if (isset($_GET['category'])) {
-          $categoryFilter = mysqli_real_escape_string($conn, $_GET['category']);
-          $categoryFilter = " AND kategori.nama_kategori = '$categoryFilter'";
-        }
-
-        // Initialize id_kategori filter
-        $idKategoriFilter = "";
-        if (isset($_GET['id_kategori'])) {
-          $idKategoriFilter = mysqli_real_escape_string($conn, $_GET['id_kategori']);
-          $idKategoriFilter = " AND kategori.id_kategori = '$idKategoriFilter'";
-        }
-
+        $id_kategori = $_GET['id_kategori'];
+        
         // Query SQL to retrieve unique book reviews from the database with category and id_kategori filters
         $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
         FROM buku
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
-        WHERE 1 $categoryFilter $idKategoriFilter
+        WHERE buku.id_kategori = '$id_kategori'
         GROUP BY buku.id_buku
         LIMIT $start_from, $results_per_page";
 
@@ -181,11 +168,7 @@ include 'header.php';
             echo '</div>';
           } 
 
-          // Pagination links
-          $sql = "SELECT COUNT(DISTINCT buku.id_buku) AS total
-                        FROM buku
-                        INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
-                        WHERE 1 $categoryFilter $idKategoriFilter";
+          $sql = "SELECT COUNT(id_buku) AS total FROM buku WHERE id_kategori = '$id_kategori'";
           $result = mysqli_query($conn, $sql);
           $row = mysqli_fetch_assoc($result);
           $total_pages = ceil($row["total"] / $results_per_page);
@@ -193,7 +176,7 @@ include 'header.php';
           echo '<div class="col-lg-12">';
           echo '<div class="pagination">';
           for ($i = 1; $i <= $total_pages; $i++) {
-            echo '<a class="' . ($i == $page ? 'active' : '') . '" href="?category=' . $categoryFilter . '&id_kategori=' . $idKategoriFilter . '&page=' . $i . '">' . $i . '</a>';
+            echo '<a class="' . ($i == $page ? 'active' : '') . '" href="?page=' . $i . '&id_kategori=' . $id_kategori . '">' . $i . '</a>';
           }
           echo '</div>';
           echo '</div>';
