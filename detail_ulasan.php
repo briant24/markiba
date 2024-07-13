@@ -51,9 +51,9 @@ include 'header.php';
 if (!isset($_SESSION['nama'])) {
   echo '<script>';
   echo 'Swal.fire({';
-  echo '  title: "Peringatan!",';
-  echo '  text: "Silahkan Login Terlebih Dahulu.",';
-  echo '  icon: "warning",';
+  echo '  title: "Belum login?",';
+  echo '  text: "Login dulu untuk mengakses semua fitur",';
+  echo '  icon: "info",';
   echo '  confirmButtonText: "OK"';
   echo '}).then(function() {';
   echo '  window.location.replace("auth/login.php");';
@@ -107,9 +107,9 @@ if (!isset($_SESSION['nama'])) {
                               if($umur_pengguna < $klasifikasi_buku){
                                     echo '<script>';
                                     echo 'Swal.fire({';
-                                    echo '  title: "Peringatan!",';
-                                    echo '  text: "Buku ini tidak cocok untuk Anda.",';
-                                    echo '  icon: "warning",';
+                                    echo '  title: "Maaf ya..",';
+                                    echo '  text: "Sayangnya buku ini kurang cocok buat kamu :(",';
+                                    echo '  icon: "info",';
                                     echo '  confirmButtonText: "OK"';
                                     echo '}).then(function() {';
                                     echo '  window.location.replace("index.php");';
