@@ -115,9 +115,6 @@ mysqli_close($conn);
                                                 ulasan</p>
                                         </div>
                                         <div class="text-right">
-                                            <a href="export_buku.php"
-                                                class="btn btn-success btn-sm mdi mdi-file-excel">Download
-                                                Data</a>
                                             <a href="tambah_buku.php" class="btn btn-primary btn-sm">Tambah
                                                 Buku</a>
                                         </div>
