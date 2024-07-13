@@ -104,7 +104,6 @@ mysqli_close($conn);
                             </ol>
                         </nav>
                     </div>
-                    <?php if (mysqli_num_rows($result) > 0) : ?>
                     <div class="row">
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
@@ -123,6 +122,7 @@ mysqli_close($conn);
                                                 Buku</a>
                                         </div>
                                     </div>
+                                    <?php if (mysqli_num_rows($result) > 0) : ?>
                                     <?php
                                     // Ambil parameter status dan pesan dari URL
                                     $status = isset($_GET['status']) ? $_GET['status'] : '';

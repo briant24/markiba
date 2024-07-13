@@ -102,7 +102,7 @@
                       text: 'Selamat datang kembali, Admin.'
                   }).then(() => {
                       // Redirect ke halaman admin
-                      window.location.href = '../admin/index.php';
+                      window.location.href = '../admin/pages/buku/buku.php';
                   });
               } else {
                   // Tampilkan Sweet Alert untuk user
