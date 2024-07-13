@@ -13,13 +13,13 @@ mysqli_stmt_bind_param($stmt_admin, "s", $username);
 mysqli_stmt_execute($stmt_admin);
 $result_admin = mysqli_stmt_get_result($stmt_admin);
 
-// Cek ke tabel user (saya asumsikan tabelnya bernama users)
+// Cek ke tabel user 
 $sql_user = "SELECT * FROM users WHERE username = ?";
 $stmt_user = mysqli_prepare($conn, $sql_user);
 mysqli_stmt_bind_param($stmt_user, "s", $username);
 mysqli_stmt_execute($stmt_user);
 $result_user = mysqli_stmt_get_result($stmt_user);
-
+$role = "Manager";
 $response = array('success' => false);
 
 // Periksa hasil query untuk admin
@@ -33,17 +33,22 @@ if ($result_admin) {
         if ($password == $admin['password']) {
             // Login berhasil sebagai admin
             session_start();
-
             // Simpan informasi admin dalam session
             $_SESSION['user_id'] = $admin['id_admin'];
             $_SESSION['username'] = $admin['username'];
             $_SESSION['nama'] = $admin['nama_admin'];
             $_SESSION['usia'] = 9999;
             $_SESSION['is_admin'] = true;
-
-            // Set response
             $response['success'] = true;
-            $response['isAdmin'] = true;
+            if($role == $admin['role']){
+                // Set response
+                $response['isAdmin'] = false;
+                $response['isManager'] = true;
+            }else{
+                // Set response
+                $response['isAdmin'] = true;
+                $response['isManager'] = false;
+            }
         }
     }
 }
@@ -74,6 +79,7 @@ if ($result_user) {
             // Set response
             $response['success'] = true;
             $response['isAdmin'] = false;
+            $response['isManager'] = false;
         }
     }
 }

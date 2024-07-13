@@ -83,7 +83,18 @@
       .then(response => response.json())
       .then(data => {
           if (data.success) {
-              if (data.isAdmin) {
+            console.log(data);
+              if (data.isManager) {
+                  // Tampilkan Sweet Alert untuk manager
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Login Berhasil sebagai Manager!',
+                      text: 'Selamat datang kembali, Manager.'
+                  }).then(() => {
+                      // Redirect ke halaman manager
+                      window.location.href = '../manager/index.php';
+                  });
+              } else if (data.isAdmin) {
                   // Tampilkan Sweet Alert untuk admin
                   Swal.fire({
                       icon: 'success',
