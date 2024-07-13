@@ -124,6 +124,7 @@ include 'header.php';
                 <div id="searchResults"></div>
               </form>
             </div>
+            <button class="btn btn-primary mt-4" style="background-color: #5B03E4; border: none"  data-toggle="modal" data-target="#searchModal"> Cari Lebih Detail</button>
           </div>
           </div>
         </div>
@@ -354,6 +355,43 @@ include 'header.php';
         </div>
       </div>
     </div>
+    <?php
+    include 'koneksi.php';
+    $sqlbahasa = "SELECT bahasa FROM buku GROUP BY bahasa";
+    $result = $conn->query($sqlbahasa);
+    $option_bahasa = "";
+    while($row = $result->fetch_assoc()) {
+      $option_bahasa .= '<option value="' . $row['bahasa'] . '">' . $row['bahasa'] . '</option>';
+    }
+    ?>
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="searchModalLabel">Cari Lebih Detail</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="sJudul">Judul</label>
+              <input type="text" class="form-control" id="sJudul" name="sJudul">
+              <label for="sPenulis">Penulis</label>
+              <input type="text" class="form-control" id="sPenulis" name="sPenulis">
+              <label for="sTahun">Tahun</label>
+              <input type="number" class="form-control" id="sTahun" name="sTahun">
+              <label for="sPenerbit">Penerbit</label>
+              <input type="text" class="form-control" id="sPenerbit" name="sPenerbit">
+              <label for="sBahasa">Bahasa</label>
+              <select class="form-control" id="sBahasa" name="sBahasa">
+                <option value="">--Pilih Bahasa--</option>
+                <?php echo $option_bahasa; ?>
+              </select>
+              <button type="button" class="btn btn-success mt-3" id="searchDetailButton" style="width: 100%;">Cari</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -407,7 +445,27 @@ include 'header.php';
               window.location.href = "detail_ulasan.php?id_buku=" + id_buku;
             });
           });
+          $(document).ready(function(){
+            $("#searchDetailButton").on("click", function(){
+              var sJudul = $("#sJudul").val();
+              var sPenulis = $("#sPenulis").val();
+              var sTahun = $("#sTahun").val();
+              var sPenerbit = $("#sPenerbit").val();
+              var sBahasa = $("#sBahasa").val();
+
+              var queryString = $.param({
+                sJudul: sJudul,
+                sPenulis: sPenulis,
+                sTahun: sTahun,
+                sPenerbit: sPenerbit,
+                sBahasa: sBahasa
+              });
+
+              window.location.href = "detail_find.php?" + queryString;
+            });
+          });
   </script>
+
 
 </body>
 
