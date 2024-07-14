@@ -1,6 +1,12 @@
 <!-- sidebar.php -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
+        <li class="nav-item <?php echo ($active_page == 'penerbit') ? 'active' : ''; ?>">
+            <a class="nav-link" href="/markibas/admin/pages/penerbit/penerbit.php">
+                <span class="menu-title">Penerbit</span>
+                <i class="mdi mdi-book-open-page-variant menu-icon"></i>
+            </a>
+        </li>
       <li class="nav-item <?php echo ($active_page == 'buku') ? 'active' : ''; ?>">
           <a class="nav-link" href="/markibas/admin/pages/buku/buku.php">
               <span class="menu-title">Buku</span>
