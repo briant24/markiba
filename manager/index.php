@@ -26,7 +26,13 @@ if (!isset($_SESSION['is_admin'])) {
   <link rel="shortcut icon" href="images/Markiba.png" />
   <?php
   include '../koneksi.php';
-  $query = "SELECT DATE(waktu) AS tanggal, COUNT(*) AS jumlah_pengunjung FROM pengunjung GROUP BY DATE(waktu)";
+  $selected_month = isset($_GET['month']) ? intval($_GET['month']) : null;
+  $query = "SELECT DATE(waktu) AS tanggal, COUNT(*) AS jumlah_pengunjung FROM pengunjung";
+  if ($selected_month) {
+      $query .= " WHERE MONTH(waktu) = $selected_month";
+  }
+  $query .= " GROUP BY DATE(waktu)";
+  // Execute the query
   $result = $conn->query($query);
 
   $data = array();
@@ -112,7 +118,35 @@ if (!isset($_SESSION['is_admin'])) {
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Grafik Pengunjung</h4>
+                  <div class="d-flex justify-content-between">
+                    <h4 class="card-title">Grafik Pengunjung</h4>
+                    <div style="text-align: center;">
+                      <label for="monthSelect">Pilih Bulan:</label>
+                        <select id="monthSelect">
+                          <option value="">Semua Bulan</option>
+                          <?php
+                            $months = [
+                                1 => 'Januari',
+                                2 => 'Februari',
+                                3 => 'Maret',
+                                4 => 'April',
+                                5 => 'Mei',
+                                6 => 'Juni',
+                                7 => 'Juli',
+                                8 => 'Agustus',
+                                9 => 'September',
+                                10 => 'Oktober',
+                                11 => 'November',
+                                12 => 'Desember',
+                            ];
+                            foreach ($months as $monthNumber => $monthName) {
+                                $selected = ($selected_month == $monthNumber) ? 'selected' : '';
+                                echo "<option value='$monthNumber' $selected>$monthName</option>";
+                            }
+                          ?>
+                        </select>
+                      </div>
+                    </div>
                   <div style="width: 800px; margin: 0 auto;">
                       <canvas id="grafik"></canvas>
                   </div>
@@ -192,6 +226,18 @@ if (!isset($_SESSION['is_admin'])) {
                     }]
                 }
             }
+        });
+        $(document).ready(function() {
+            $('#monthSelect').change(function() {
+                var selectedMonth = $(this).val();
+                if (selectedMonth === '') {
+                    // Jika memilih "Semua Bulan", redirect tanpa parameter bulan
+                    window.location.href = window.location.pathname;
+                } else {
+                    // Redirect ke halaman yang sama dengan bulan yang dipilih sebagai parameter GET
+                    window.location.href = window.location.pathname + '?month=' + selectedMonth;
+                }
+            });
         });
     </script>
 </body>
