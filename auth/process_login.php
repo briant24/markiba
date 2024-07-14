@@ -44,10 +44,12 @@ if ($result_admin) {
                 // Set response
                 $response['isAdmin'] = false;
                 $response['isManager'] = true;
+                $_SESSION['is_manager'] = true;
             }else{
                 // Set response
                 $response['isAdmin'] = true;
                 $response['isManager'] = false;
+                $_SESSION['is_manager'] = false;
             }
         }
     }
@@ -75,6 +77,7 @@ if ($result_user) {
             $_SESSION['usia'] = $umur;
             $_SESSION['nama'] = $user['nama_user'];
             $_SESSION['is_admin'] = false;
+            $_SESSION['is_manager'] = false;
 
             // Set response
             $response['success'] = true;

@@ -1,0 +1,52 @@
+<!-- sidebar.php -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+      <li class="nav-item <?php echo ($active_page == 'index') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/index.php">
+              <span class="menu-title">Dashboard</span>
+              <i class="mdi mdi-home menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item <?php echo ($active_page == 'buku') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/pages/buku/buku.php">
+              <span class="menu-title">Buku</span>
+              <i class="mdi mdi-book-open menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item <?php echo ($active_page == 'kategori') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/pages/kategori/kategori.php">
+              <span class="menu-title">Kategori Buku</span>
+              <i class="mdi mdi-book-multiple menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item <?php echo ($active_page == 'artikel') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/pages/artikel/artikel.php">
+              <span class="menu-title">Artikel</span>
+              <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item <?php echo ($active_page == 'diskusi') ? 'active' : ''; ?>">
+        <a class="nav-link" href="/markibas/manager/pages/diskusi/diskusi.php">
+            <span class="menu-title">Diskusi</span>
+            <i class="mdi mdi-voice menu-icon"></i>
+        </a>
+    </li>
+      <li class="nav-item <?php echo ($active_page == 'about') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/pages/about/about.php">
+              <span class="menu-title">About Us</span>
+              <i class="mdi mdi-chart-bar menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item <?php echo ($active_page == 'account') ? 'active' : ''; ?>">
+          <a class="nav-link" href="/markibas/manager/pages/account/account.php">
+              <span class="menu-title">Account</span>
+              <i class="mdi mdi-account menu-icon"></i>
+          </a>
+      </li>
+      <li class="nav-item sidebar-actions">
+          <span class="nav-link">
+              <a class="btn btn-block btn-lg btn-gradient-primary mt-1" href="/markibas/auth/process_logout.php">Logout</a>
+          </span>
+      </li>
+  </ul>
+</nav>

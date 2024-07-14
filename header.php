@@ -140,9 +140,11 @@ $(document).ready(function() {
                 </a>
                 <div class="dropdown-content" style="min-width:150px;">
                   <?php
-                  if($_SESSION['is_admin']){
-                    echo '<a href="admin/index.php">Dashboard</a>';
-                  }else{
+                  if($_SESSION['is_manager']){
+                    echo '<a href="manager/index.php">Dashboard</a>';
+                  }else if($_SESSION['is_admin']){
+                    echo '<a href="admin/pages/buku/buku.php">Dashboard</a>';
+                  }else {
                     echo '<a href="#" id="profile-link">Profile</a>';
                   }
                   ?>
