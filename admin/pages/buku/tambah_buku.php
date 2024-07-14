@@ -85,6 +85,20 @@ if (!isset($_SESSION['username'])) {
                                 <input type="text" class="form-control" id="ISBN" name="ISBN" placeholder="ISBN" required>
                             </div>
                             <div class="form-group">
+                                <label for="id_penerbit">Penerbit</label>
+                                <select class="form-control" id="id_penerbit" name="id_penerbit" required>
+                                    <?php
+                                    include '../../../koneksi.php';
+                                    $sql_penerbit = "SELECT * FROM penerbit";
+                                    $result_penerbit = mysqli_query($conn, $sql_penerbit);
+
+                                    while ($row_penerbit = mysqli_fetch_assoc($result_penerbit)) {
+                                        echo "<option value='" . $row_penerbit['id'] . "'>" . $row_penerbit['nama_penerbit'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="judul_buku">Judul Buku</label>
                                 <input type="text" class="form-control" id="judul_buku" name="judul_buku" placeholder="Judul Buku" required>
                             </div>
