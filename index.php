@@ -357,11 +357,11 @@ include 'header.php';
     </div>
     <?php
     include 'koneksi.php';
-    $sqlbahasa = "SELECT bahasa FROM buku GROUP BY bahasa";
+    $sqlbahasa = "SELECT * FROM list_bahasa";
     $result = $conn->query($sqlbahasa);
     $option_bahasa = "";
     while($row = $result->fetch_assoc()) {
-      $option_bahasa .= '<option value="' . $row['bahasa'] . '">' . $row['bahasa'] . '</option>';
+      $option_bahasa .= '<option value="' . $row['id'] . '">' . $row['value'] . '</option>';
     }
     ?>
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

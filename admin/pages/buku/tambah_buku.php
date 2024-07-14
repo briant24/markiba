@@ -117,6 +117,19 @@ if (!isset($_SESSION['username'])) {
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="id_bahasa">Bahasa</label>
+                                <select class="form-control" id="id_bahasa" name="id_bahasa" required>
+                                    <?php
+                                    include '../../../koneksi.php';
+                                    $sql_bahasa = "SELECT id, value FROM list_bahasa";
+                                    $result_bahasa = mysqli_query($conn, $sql_bahasa);
+                                    while ($row_bahasa = mysqli_fetch_assoc($result_bahasa)) {
+                                        echo "<option value='" . $row_bahasa['id'] . "'>" . $row_bahasa['value'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="tahun_terbit">Tahun Terbit</label>
                                 <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" placeholder="Tahun Terbit" required>
                             </div>
@@ -141,6 +154,15 @@ if (!isset($_SESSION['username'])) {
                                   <option value="10">10+</option>
                                   <option value="0">Semua Umur</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                              <label>Rekomendasi untuk Anak-Anak?</label><br>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="rekomendasi_anak" id="rekomendasi_anak_ya" value="1">Ya
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="rekomendasi_anak" id="rekomendasi_anak_tidak" value="0" checked>Tidak
+                              </div>
                             </div>
                             <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
                             <a href="buku.php" class="btn btn-light">Cancel</a>
