@@ -16,10 +16,9 @@ $offset = ($current_page - 1) * $records_per_page;
 
 // Query SQL untuk menampilkan data buku dengan limit dan offset
 $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
-        buku.sinopsis, kategori.nama_kategori, penerbit.nama_penerbit,
+        buku.sinopsis, kategori.nama_kategori, buku.penerbit
         MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
         FROM buku
-        INNER JOIN penerbit on buku.penerbit = penerbit.id
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
         GROUP BY buku.id_buku
@@ -161,7 +160,7 @@ mysqli_close($conn);
                                                 echo "<td>" . $no . "</td>";
                                                 echo "<td>" . $row['judul_buku'] . "</td>";
                                                 echo "<td>" . $row['nama_penulis'] . "</td>";
-                                                echo "<td>" . $row['nama_penerbit'] . "</td>";
+                                                echo "<td>" . $row['penerbit'] . "</td>";
                                                 echo "<td>" . $row['tahun_terbit'] . "</td>";
                                                 echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['gambar']) . "' alt='Gambar' style='width: 50px; height: auto; border-radius: 0px'></td>";
                                                 echo "<td>" . $row['nama_kategori'] . "</td>";
