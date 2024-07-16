@@ -26,6 +26,29 @@ $id_buku = isset($_GET['id_buku']) ? $_GET['id_buku'] : '';
   <link rel="stylesheet" href="../../css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/Markiba.png" />
+
+  <!-- Custom CSS for star rating -->
+  <style>
+    .star-rating {
+      direction: rtl;
+      font-size: 2em;
+    }
+    .star-rating input[type="radio"] {
+      display: none;
+    }
+    .star-rating label {
+      color: #ddd;
+      font-size: 2em;
+      cursor: pointer;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+      color: #f5c518;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #f5c518;
+    }
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -86,11 +109,17 @@ $id_buku = isset($_GET['id_buku']) ? $_GET['id_buku'] : '';
                             <!-- New field for adding review -->
                             <div class="form-group">
                                 <label for="rating">Rating</label>
-                                <input type="number" step="1" class="form-control" id="rating" name="rating" placeholder="Rating (0-5)" min="0" max="5" required>
+                                <div class="star-rating">
+                                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">☆</label>
+                                    <input type="radio" id="star4" name="rating" value="4" required /><label for="star4" title="4 stars">☆</label>
+                                    <input type="radio" id="star3" name="rating" value="3" required /><label for="star3" title="3 stars">☆</label>
+                                    <input type="radio" id="star2" name="rating" value="2" required /><label for="star2" title="2 stars">☆</label>
+                                    <input type="radio" id="star1" name="rating" value="1" required /><label for="star1" title="1 star">☆</label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="isi_ulasan">Ulasan</label>
-                                <textarea class="form-control" id="isi_ulasan" name="isi_ulasan" rows="30" placeholder="Tambah ulasan" re></textarea>
+                                <textarea class="form-control" id="isi_ulasan" name="isi_ulasan" rows="30" placeholder="Tambah ulasan" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
                             <a href="buku.php" class="btn btn-light">Cancel</a>
