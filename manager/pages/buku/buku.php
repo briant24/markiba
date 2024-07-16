@@ -16,7 +16,7 @@ $offset = ($current_page - 1) * $records_per_page;
 
 // Query SQL untuk menampilkan data buku dengan limit dan offset
 $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
-        buku.sinopsis, kategori.nama_kategori, buku.penerbit
+        buku.sinopsis, kategori.nama_kategori, buku.penerbit ,
         MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
         FROM buku
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
