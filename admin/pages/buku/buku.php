@@ -19,7 +19,7 @@ $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.t
         buku.sinopsis, kategori.nama_kategori, penerbit.nama_penerbit , 
         MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
         FROM buku
-        INNER JOIN penerbit ON buku.penerbit = penerbit.it
+        INNER JOIN penerbit ON buku.penerbit = penerbit.id
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
         GROUP BY buku.id_buku
