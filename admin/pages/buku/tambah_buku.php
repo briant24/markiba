@@ -24,6 +24,46 @@ if (!isset($_SESSION['username'])) {
   <link rel="stylesheet" href="../../css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/Markiba.png" />
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Fungsi untuk mengubah opsi dropdown "Jenis Buku" berdasarkan pilihan "Kategori"
+    function updateJenisBuku() {
+        var kategoriSelect = document.getElementById("id_kategori");
+        var jenisBukuSelect = document.getElementById("jenis_buku");
+
+        // Hapus semua opsi terlebih dahulu
+        jenisBukuSelect.innerHTML = '';
+
+        // Ambil nilai yang dipilih dari dropdown "Kategori"
+        var selectedKategori = kategoriSelect.value;
+        // Tambahkan opsi berdasarkan nilai yang dipilih
+        switch (selectedKategori) {
+            case "1":
+                jenisBukuSelect.options.add(new Option("Novel", "Novel"));
+                jenisBukuSelect.options.add(new Option("Puisi", "Puisi"));
+                break;
+            case "2":
+                jenisBukuSelect.options.add(new Option("Pengembangan Diri", "Pengembangan Diri"));
+                break;
+            case "3":
+                jenisBukuSelect.options.add(new Option("Sejarah Umum", "Sejarah Umum"));
+                break;
+            case "8":
+                jenisBukuSelect.options.add(new Option("Cerita Rakyat", "Cerita Rakyat"));
+                jenisBukuSelect.options.add(new Option("Cerpen", "Cerpen"));
+                jenisBukuSelect.options.add(new Option("Dongeng", "Dongeng"));
+                jenisBukuSelect.options.add(new Option("Fabel", "Fabel"));
+                break;
+            default:
+                jenisBukuSelect.options.add(new Option("Pilih jenis buku", ""));
+        }
+    }
+    document.getElementById("id_kategori").addEventListener("change", updateJenisBuku);
+    updateJenisBuku();  // Call the function initially
+});
+
+</script>
+
 </head>
 <body>
   <div class="container-scroller">
@@ -115,9 +155,7 @@ if (!isset($_SESSION['username'])) {
                             <div class="form-group">
                                 <label for="jenis_buku">Jenis</label>
                                 <select class="form-control" id="jenis_buku" name="jenis_buku" required>
-                                  <option value="Novel">Novel</option>
-                                  <option value="Psikologi">Psikologi</option>
-                                  <option value="Sejarah">Sejarah</option>
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -145,15 +183,6 @@ if (!isset($_SESSION['username'])) {
                                   <option value="10">10+</option>
                                   <option value="0">Semua Umur</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                              <label>Rekomendasi untuk Anak-Anak?</label><br>
-                              <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="rekomendasi_anak" id="rekomendasi_anak_ya" value="1">Ya
-                              </div>
-                              <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="rekomendasi_anak" id="rekomendasi_anak_tidak" value="0" checked>Tidak
-                              </div>
                             </div>
                             <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
                             <a href="buku.php" class="btn btn-light">Cancel</a>
