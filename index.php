@@ -355,15 +355,6 @@ include 'header.php';
         </div>
       </div>
     </div>
-    <?php
-    include 'koneksi.php';
-    $sqlbahasa = "SELECT * FROM list_bahasa";
-    $result = $conn->query($sqlbahasa);
-    $option_bahasa = "";
-    while($row = $result->fetch_assoc()) {
-      $option_bahasa .= '<option value="' . $row['id'] . '">' . $row['value'] . '</option>';
-    }
-    ?>
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -381,11 +372,6 @@ include 'header.php';
               <input type="number" class="form-control" id="sTahun" name="sTahun">
               <label for="sPenerbit">Penerbit</label>
               <input type="text" class="form-control" id="sPenerbit" name="sPenerbit">
-              <label for="sBahasa">Bahasa</label>
-              <select class="form-control" id="sBahasa" name="sBahasa">
-                <option value="">--Pilih Bahasa--</option>
-                <?php echo $option_bahasa; ?>
-              </select>
               <button type="button" class="btn btn-success mt-3" id="searchDetailButton" style="width: 100%;">Cari</button>
             </div>
           </div>
@@ -451,14 +437,12 @@ include 'header.php';
               var sPenulis = $("#sPenulis").val();
               var sTahun = $("#sTahun").val();
               var sPenerbit = $("#sPenerbit").val();
-              var sBahasa = $("#sBahasa").val();
 
               var queryString = $.param({
                 sJudul: sJudul,
                 sPenulis: sPenulis,
                 sTahun: sTahun,
                 sPenerbit: sPenerbit,
-                sBahasa: sBahasa
               });
 
               window.location.href = "detail_find.php?" + queryString;

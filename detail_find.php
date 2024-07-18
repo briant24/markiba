@@ -6,7 +6,6 @@ $sJudul = isset($_GET['sJudul']) ? $_GET['sJudul'] : '';
 $sPenulis = isset($_GET['sPenulis']) ? $_GET['sPenulis'] : '';
 $sTahun = isset($_GET['sTahun']) ? $_GET['sTahun'] : '';
 $sPenerbit = isset($_GET['sPenerbit']) ? $_GET['sPenerbit'] : '';
-$sBahasa = isset($_GET['sBahasa']) ? $_GET['sBahasa'] : '';
 
 // Build the query based on the search parameters
 $query = "SELECT buku.*, AVG(ulasan.rating) AS avg_rating FROM buku 
@@ -24,9 +23,6 @@ if ($sTahun != '') {
 }
 if ($sPenerbit != '') {
     $query .= " AND buku.penerbit LIKE '%$sPenerbit%'";
-}
-if ($sBahasa != '') {
-    $query .= " AND buku.bahasa LIKE '%$sBahasa%'";
 }
 $query .= " GROUP BY buku.id_buku";
 
@@ -185,9 +181,6 @@ include 'header.php';
           if ($sPenerbit != '') {
               $query_count .= " AND buku.penerbit LIKE '%$sPenerbit%'";
           }
-          if ($sBahasa != '') {
-              $query_count .= " AND buku.bahasa LIKE '%$sBahasa%'";
-          }
 
           $result_count = mysqli_query($conn, $query_count);
           $row_count = mysqli_fetch_assoc($result_count);
@@ -196,7 +189,7 @@ include 'header.php';
           echo '<div class="col-lg-12">';
           echo '<div class="pagination">';
           for ($i = 1; $i <= $total_pages; $i++) {
-              echo '<a class="' . ($i == $page ? 'active' : '') . '" href="?sJudul=' . $sJudul . '&sPenulis=' . $sPenulis . '&sTahun=' . $sTahun . '&sPenerbit=' . $sPenerbit . '&sBahasa=' . $sBahasa . '&page=' . $i . '">' . $i . '</a>';
+              echo '<a class="' . ($i == $page ? 'active' : '') . '" href="?sJudul=' . $sJudul . '&sPenulis=' . $sPenulis . '&sTahun=' . $sTahun . '&sPenerbit=' . $sPenerbit . '&page=' . $i . '">' . $i . '</a>';
           }
           echo '</div>';
           echo '</div>';

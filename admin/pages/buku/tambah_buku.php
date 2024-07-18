@@ -121,19 +121,6 @@ if (!isset($_SESSION['username'])) {
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="id_bahasa">Bahasa</label>
-                                <select class="form-control" id="id_bahasa" name="id_bahasa" required>
-                                    <?php
-                                    include '../../../koneksi.php';
-                                    $sql_bahasa = "SELECT id, value FROM list_bahasa";
-                                    $result_bahasa = mysqli_query($conn, $sql_bahasa);
-                                    while ($row_bahasa = mysqli_fetch_assoc($result_bahasa)) {
-                                        echo "<option value='" . $row_bahasa['id'] . "'>" . $row_bahasa['value'] . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="tahun_terbit">Tahun Terbit</label>
                                 <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" placeholder="Tahun Terbit" required>
                             </div>
