@@ -164,7 +164,7 @@ include 'header.php';
                                             <img src="assets/images/icon-book.jpg" alt="category icon" class="templatemo-feature">
                                         </div>
                                         <h4>
-                                            <a href="ulasan_kategori.php?category=<?php echo $row['nama_kategori']; ?>" style="color: #5B03E4">
+                                            <a href="ulasan_kategori.php?id_kategori=<?php echo $row['id_kategori']; ?>" style="color: #5B03E4">
                                                 <?php echo $row['nama_kategori']; ?>
                                             </a>
                                         </h4>
