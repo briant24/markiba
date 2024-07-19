@@ -90,9 +90,19 @@ if (!isset($_SESSION['username'])) {
                   <?php
                   include '../../../koneksi.php';
 
-                  // Query SQL untuk menampilkan data artikel
-                  $sql_artikel = "SELECT ulasan.*, users.nama_user, buku.judul_buku FROM ulasan INNER JOIN users ON ulasan.username = users.username INNER JOIN buku on ulasan.id_buku = buku.id_buku";
-                  $result_artikel = mysqli_query($conn, $sql_artikel);
+                  // Query SQL untuk menampilkan data Ulasan
+                  $sql = "SELECT ulasan.id_ulasan AS id, users.nama_user AS nama,
+                  buku.judul_buku AS judul, ulasan.tanggal AS tanggal, ulasan.status AS status,
+                  ulasan.isi_ulasan AS isi, 'Ulasan' AS tipe FROM ulasan 
+                  INNER JOIN users ON ulasan.username = users.username INNER JOIN buku 
+                  on ulasan.id_buku = buku.id_buku
+                  UNION
+                  SELECT komentar_diskusi.id_komentar AS id, users.nama_user AS nama,
+                  diskusi.isi_diskusi AS judul, komentar_diskusi.waktu AS tanggal, komentar_diskusi.status AS status,
+                  komentar_diskusi.isi_komentar AS isi, 'Komentar' AS tipe FROM komentar_diskusi
+                  INNER JOIN users ON komentar_diskusi.id_user = users.id INNER JOIN diskusi
+                  on komentar_diskusi.id_diskusi = diskusi.id_diskusi";
+                  $result_artikel = mysqli_query($conn, $sql);
                   ?>
                   <?php
                   // Ambil parameter status dan pesan dari URL
@@ -114,6 +124,7 @@ if (!isset($_SESSION['username'])) {
                         <th>Buku</th>
                         <th>Isi</th>
                         <th>Tanggal</th>
+                        <th>Tipe</th>
                         <th>Status</th>
                         <th>Aksi</th>
                       </tr>
@@ -143,15 +154,16 @@ if (!isset($_SESSION['username'])) {
                           $no++;
                           echo "<tr>";
                           echo "<td>" . $no . "</td>";
-                          echo "<td>" . $row_artikel['nama_user'] . "</td>";
-                          echo "<td>" . $row_artikel['judul_buku'] . "</td>";
-                          echo "<td>" . $row_artikel['isi_ulasan'] . "</td>";
+                          echo "<td>" . $row_artikel['nama'] . "</td>";
+                          echo "<td>" . $row_artikel['judul'] . "</td>";
+                          echo "<td>" . $row_artikel['isi'] . "</td>";
                           echo "<td>" . $row_artikel['tanggal'] . "</td>";
+                          echo "<td>" . $row_artikel['tipe'] . "</td>";
                           echo "<td><span class='badge $status_class'>$status_text</span></td>";
                           echo "<td>
-                                    <button class='btn btn-success btn-sm approve-btn' data-id='" . $row_artikel['id_ulasan'] . "'>Approve</button>
-                                    <button class='btn btn-danger btn-sm reject-btn' data-id='" . $row_artikel['id_ulasan'] . "'>Reject</button>
-                            </td>";
+                                    <button class='btn btn-success btn-sm approve-btn' data-id='" . $row_artikel['id'] . "' data-tipe='" . $row_artikel['tipe'] . "'>Approve</button>
+                                    <button class='btn btn-danger btn-sm reject-btn' data-id='" . $row_artikel['id'] . "' data-tipe='" . $row_artikel['tipe'] . "'>Reject</button>
+                                </td>";
                           echo "</tr>";
                         }
                       } else {
@@ -196,13 +208,14 @@ if (!isset($_SESSION['username'])) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+  <script>
 $(document).ready(function() {
     $('.approve-btn').click(function() {
         var id = $(this).data('id');
+        var tipe = $(this).data('tipe');
         Swal.fire({
             title: 'Apakah anda yakin?',
-            text: "Anda akan approve ulasan ini.",
+            text: "Anda akan approve " + tipe.toLowerCase() + " ini.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -211,16 +224,17 @@ $(document).ready(function() {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                updateStatus(id, 'accept');
+                updateStatus(id, 'accept', tipe);
             }
         });
     });
 
     $('.reject-btn').click(function() {
         var id = $(this).data('id');
+        var tipe = $(this).data('tipe');
         Swal.fire({
             title: 'Apakah anda yakin?',
-            text: "Anda akan menolak ulasan ini.",
+            text: "Anda akan menolak " + tipe.toLowerCase() + " ini.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -229,18 +243,19 @@ $(document).ready(function() {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                updateStatus(id, 'reject');
+                updateStatus(id, 'reject', tipe);
             }
         });
     });
 
-    function updateStatus(id, status) {
+    function updateStatus(id, status, tipe) {
         $.ajax({
             url: 'change_status.php',
             type: 'POST',
             data: {
                 id: id,
-                status: status
+                status: status,
+                tipe: tipe
             },
             success: function(response) {
                 console.log(response);
@@ -250,8 +265,8 @@ $(document).ready(function() {
                         'Status sudah ter-update.',
                         'success'
                     ).then(() => {
-                    location.reload();
-                });
+                        location.reload();
+                    });
                 } else {
                     Swal.fire(
                         'Error!',
@@ -271,6 +286,7 @@ $(document).ready(function() {
     }
 });
 </script>
+
 
 
 </body>

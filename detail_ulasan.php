@@ -253,7 +253,7 @@ if (!isset($_SESSION['nama'])) {
                                   FROM komentar_diskusi
                                   INNER JOIN users
                                   on komentar_diskusi.id_user = users.id 
-                                  WHERE komentar_diskusi.id_diskusi = '$id_diskusi' ORDER BY komentar_diskusi.waktu ASC";
+                                  WHERE komentar_diskusi.id_diskusi = '$id_diskusi' AND status='accept' ORDER BY komentar_diskusi.waktu ASC";
                                   $result_komentar = mysqli_query($conn, $sql_komentar);
                                   if (mysqli_num_rows($result_komentar) > 0) {
                                       echo '<div class="mt-3">';

@@ -4,22 +4,26 @@ include '../../../koneksi.php';
 if (isset($_POST['id']) && isset($_POST['status'])) {
     $id = $_POST['id'];
     $status = $_POST['status'];
+    $tipe = $_POST['tipe'];
 
-    // Prepare the SQL statement
-    $sql = "UPDATE ulasan SET status = ? WHERE id_ulasan = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-
-    // Bind parameters and execute
-    mysqli_stmt_bind_param($stmt, "si", $status, $id);
-    $result = mysqli_stmt_execute($stmt);
-
-    if ($result) {
-        echo "success";
+    if($tipe === "Ulasan"){
+        $table = 'ulasan';
+        $id_column = 'id_ulasan';
+    }else if($tipe === "Komentar"){
+        $table = 'komentar_diskusi';
+        $id_column = 'id_komentar';
     } else {
-        echo "error";
+        echo 'error';
+        exit();
     }
 
-    mysqli_stmt_close($stmt);
+    $sql = "UPDATE $table SET status = '$status' WHERE $id_column = $id";
+    if (mysqli_query($conn, $sql)) {
+        echo 'success';
+    }else{
+        echo 'error';
+    }
+
 }
 
 mysqli_close($conn);
