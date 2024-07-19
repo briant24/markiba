@@ -88,9 +88,6 @@ if (!isset($_SESSION['username'])) {
                                 <h4 class="card-title">Daftar Kategori Buku</h4>
                                 <p class="card-description">Data kategori buku</p>
                             </div>
-                            <div class="text-right">
-                                <a href="tambah_kategori.php" class="btn btn-primary btn-sm">Tambah Kategori Buku</a>
-                            </div>
                         </div>
                           <?php
                           include '../../../koneksi.php';
@@ -117,7 +114,6 @@ if (!isset($_SESSION['username'])) {
                                 <th>No</th>
                                 <th>Nama Kategori</th>
                                 <th>Gambar</th>
-                                <th>Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -130,10 +126,6 @@ if (!isset($_SESSION['username'])) {
                                   echo "<td>" . $no . "</td>";
                                   echo "<td>" . $row_kategori['nama_kategori'] . "</td>";
                                   echo "<td><img src='data:image/jpeg;base64," . base64_encode($row_kategori['gambar']) . "' alt='Gambar' style='width: 150px; height: 100px; border-radius: 0px'></td>";
-                                  echo "<td>
-                                      <a href='edit_kategori.php?id=" . $row_kategori['id_kategori'] . "' class='btn btn-warning btn-sm'>Edit</a>
-                                      <a href='proses_hapus_kategori.php?id=" . $row_kategori['id_kategori'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>Hapus</a>
-                                    </td>";
                                   echo "</tr>";
                                 }
                               } else {
