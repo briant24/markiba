@@ -62,150 +62,183 @@ $(document).ready(function() {
 </script>
 
 <style>
-    header {
-      top: 0;
-    }
-
-    .dropdown {
-    position: relative;
-    display: inline-block;
+header {
+  top: 0;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #C23BFE;
-    min-width: 200px; /* Sesuaikan lebar sesuai kebutuhan */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 5px;
-    left: 0;
-    margin-top: 8px;
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-.dropdown-content a {
-    color: black;
-    text-decoration: none;
-    display: block;
-    white-space: nowrap; /* Agar teks tidak mematah-matah */
-    text-align: center;
+.dropdown-content, .submenu-content {
+  display: none;
+  position: absolute;
+  background-color: #C23BFE;
+  min-width: 200px; /* Sesuaikan lebar sesuai kebutuhan */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  left: 0;
+  margin-top: 3px;
 }
 
-.dropdown-content a:hover {
-    background-color: #5B03E4;
+.dropdown-content a, .submenu-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap; /* Agar teks tidak mematah-matah */
+  text-align: center;
 }
 
+.dropdown-content a:hover, .submenu-content a:hover {
+  background-color: #5B03E4;
+  border-radius: 5px;
+}
 
 .dropdown:hover .dropdown-content {
-    display: block;
+  display: block;
+  border-radius: 5px;
 }
 
-.dropdown .dropbtn {
-    text-decoration: none;
-    color: black;
+.submenu:hover .submenu-content {
+  display: block;
 }
 
+.submenu {
+  position: relative;
+}
+
+.submenu-content {
+  left: 101%;
+  top: 0;
+}
+
+.submenu-content a.subkategori {
+  line-height: 30px !important; /* Sesuaikan line-height */
+  height: 50px !important;
+  padding-top: 10px;
+}
 </style>
-  <header class="header-area header-sticky" id="main-header">
-    <div class="container">
-      <div class="row">
-        <nav class="main-nav">
-          <!-- ***** Logo Start ***** -->
-          <a href="index.php" class="logo">
-            <img src="assets/images/Markiba3.png" alt="" style="width: 250px;"/>
-          </a>
-          <ul class="nav">
-              <li><a href="<?php echo ($activePage == 'home') ? '#' : 'index.php'; ?>" <?php echo ($activePage == 'home') ? 'class="active"' : ''; ?>>Home</a></li>
-              <li class="dropdown">
-                  <a href="<?php echo ($activePage == 'kategori') ? '#' : 'kategori.php'; ?>" <?php echo ($activePage == 'kategori') ? 'class="active"' : ''; ?>>Kategori <i class="fa fa-caret-down"></i></a>
-                  <div class="dropdown-content">
-                      <a href="ulasan_kategori.php?id_kategori=1">Kesusastraan</a>
-                      <a href="ulasan_kategori.php?id_kategori=2">Filsafat & Psikologi</a>
-                      <a href="ulasan_kategori.php?id_kategori=3">Sejarah & Geografi</a>
-                      <!-- Tambahkan submenu sesuai kebutuhan -->
-                  </div>
-              </li>
-              <li><a href="<?php echo ($activePage == 'ulasan') ? '#' : 'ulasan.php'; ?>" <?php echo ($activePage == 'ulasan') ? 'class="active"' : ''; ?>>Ulasan</a></li>
-              <li><a href="<?php echo ($activePage == 'artikel') ? '#' : 'artikel.php'; ?>" style="padding-right: 10px;" <?php echo ($activePage == 'artikel') ? 'class="active"' : ''; ?>>Artikel</a></li>
-              <li><a href="<?php echo ($activePage == 'about') ? '#' : 'about.php'; ?>" <?php echo ($activePage == 'about') ? 'class="active"' : ''; ?>>About Us</a></li>
-              <?php if ($login_status==false) {
-                ?>
-                  <li><a href="<?php echo ($activePage == 'login') ? '#' : 'auth/login.php'; ?>" <?php echo ($activePage == 'login') ? 'class="active"' : ''; ?>>Login</a></li>
-                <?php
-              }else{
-                ?>
-              <li class="dropdown">
-                <a class="dropbtn"  style="padding-top:8px;">
-                <i class="fa fa-user-circle" style="font-size: 35px;"></i>
-                </a>
-                <div class="dropdown-content" style="min-width:150px;">
-                  <?php
-                  if($_SESSION['is_manager']){
-                    echo '<a href="manager/index.php">Dashboard</a>';
-                  }else if($_SESSION['is_admin']){
-                    echo '<a href="admin/pages/buku/buku.php">Dashboard</a>';
-                  }else {
-                    echo '<a href="#" id="profile-link">Profile</a>';
-                  }
-                  ?>
-                  <a id="logout-link" href="#">Keluar</a>
+<header class="header-area header-sticky" id="main-header">
+  <div class="container">
+    <div class="row">
+      <nav class="main-nav">
+        <!-- ***** Logo Start ***** -->
+        <a href="index.php" class="logo">
+          <img src="assets/images/Markiba3.png" alt="" style="width: 250px;"/>
+        </a>
+        <ul class="nav">
+          <li><a href="<?php echo ($activePage == 'home') ? '#' : 'index.php'; ?>" <?php echo ($activePage == 'home') ? 'class="active"' : ''; ?>>Home</a></li>
+          <li class="dropdown">
+            <a href="<?php echo ($activePage == 'kategori') ? '#' : 'kategori.php'; ?>" <?php echo ($activePage == 'kategori') ? 'class="active"' : ''; ?>>Kategori</a>
+            <div class="dropdown-content">
+              <div class="submenu">
+                <a href="ulasan_kategori.php?id_kategori=1">Kesusastraan</a>
+                <div class="submenu-content">
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=novel">Novel</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=puisi">Puisi</a>
                 </div>
-              </li>
-              <?php
-            }
-            ?>
-          </ul>
-          <!-- ***** Menu End ***** -->
-        </nav>
-      </div>
+              </div>
+              <div class="submenu">
+                <a href="ulasan_kategori.php?id_kategori=2">Filsafat & Psikologi</a>
+                <div class="submenu-content">
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=2&sub_kategori=pengembangan">Pengembangan Diri</a>
+                </div>
+              </div>
+              <div class="submenu">
+                <a href="ulasan_kategori.php?id_kategori=3">Sejarah & Geografi</a>
+                <div class="submenu-content">
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=3&sub_kategori=sejarah">Sejarah Umum</a>
+                </div>
+              </div>
+              <div class="submenu">
+                <a href="ulasan_kategori.php?id_kategori=8">Rekomendasi Anak</a>
+                <div class="submenu-content">
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=rakyat">Cerita Rakyat</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=pendek">Cerita Pendek</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=dongeng">Dongeng</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=fabel">Fabel</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li><a href="<?php echo ($activePage == 'ulasan') ? '#' : 'ulasan.php'; ?>" <?php echo ($activePage == 'ulasan') ? 'class="active"' : ''; ?>>Ulasan</a></li>
+          <li><a href="<?php echo ($activePage == 'artikel') ? '#' : 'artikel.php'; ?>" style="padding-right: 10px;" <?php echo ($activePage == 'artikel') ? 'class="active"' : ''; ?>>Artikel</a></li>
+          <li><a href="<?php echo ($activePage == 'about') ? '#' : 'about.php'; ?>" <?php echo ($activePage == 'about') ? 'class="active"' : ''; ?>>About Us</a></li>
+          <?php if ($login_status==false) { ?>
+            <li><a href="<?php echo ($activePage == 'login') ? '#' : 'auth/login.php'; ?>" <?php echo ($activePage == 'login') ? 'class="active"' : ''; ?>>Login</a></li>
+          <?php } else { ?>
+            <li class="dropdown">
+              <a class="dropbtn"  style="padding-top:8px;">
+                <i class="fa fa-user-circle" style="font-size: 35px;"></i>
+              </a>
+              <div class="dropdown-content" style="min-width:150px;">
+                <?php
+                if($_SESSION['is_manager']){
+                  echo '<a href="manager/index.php">Dashboard</a>';
+                } else if($_SESSION['is_admin']){
+                  echo '<a href="admin/pages/buku/buku.php">Dashboard</a>';
+                } else {
+                  echo '<a href="#" id="profile-link">Profile</a>';
+                }
+                ?>
+                <a id="logout-link" href="#">Keluar</a>
+              </div>
+            </li>
+          <?php } ?>
+        </ul>
+        <!-- ***** Menu End ***** -->
+      </nav>
     </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
-  <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center" id="profileModalLabel">Profil Pengguna</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-          <div id="profile-info">
-            <!-- Data profil pengguna akan dimasukkan di sini -->
-          </div>
+  </div>
+</header>
+<!-- ***** Header Area End ***** -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="profileModalLabel">Profil Pengguna</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div id="profile-info">
+          <!-- Data profil pengguna akan dimasukkan di sini -->
         </div>
       </div>
     </div>
   </div>
-  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header text-center" style="display: block;">
-          <h5 class="modal-title" id="logoutModalLabel">Beneran Mau Keluar?</h5>
-        </div>
-        <div class="modal-body text-center">
-          <div>
-            <button type="submit" data-bs-dismiss="modal" class="btn btn-success">Batal</button>
-            <button type="submit" class="btn btn-danger">Keluar</button>
-          </div>
+</div>
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center" style="display: block;">
+        <h5 class="modal-title" id="logoutModalLabel">Beneran Mau Keluar?</h5>
+      </div>
+      <div class="modal-body text-center">
+        <div>
+          <button type="submit" data-bs-dismiss="modal" class="btn btn-success">Batal</button>
+          <button type="submit" class="btn btn-danger">Keluar</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    let lastScrollTop = 0;
-    const header = document.getElementById('main-header');
+<script>
+let lastScrollTop = 0;
+const header = document.getElementById('main-header');
 
-    window.addEventListener('scroll', function() {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+window.addEventListener('scroll', function() {
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (scrollTop > lastScrollTop) {
-        // Scroll ke bawah - sembunyikan header
-        header.style.transform = 'translateY(-100%)';
-      } else {
-        // Scroll ke atas - tampilkan kembali header
-        header.style.transform = 'translateY(0)';
-      }
-      lastScrollTop = scrollTop;
-    });
-  </script>
+  if (scrollTop > lastScrollTop) {
+    // Scroll ke bawah - sembunyikan header
+    header.style.transform = 'translateY(-100%)';
+  } else {
+    // Scroll ke atas - tampilkan kembali header
+    header.style.transform = 'translateY(0)';
+  }
+  lastScrollTop = scrollTop;
+});
+</script>
