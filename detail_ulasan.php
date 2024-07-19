@@ -96,6 +96,10 @@ if (!isset($_SESSION['nama'])) {
                               LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
                               WHERE buku.id_buku = $id_buku
                               GROUP BY buku.id_buku";
+                              $sqlUlasan = "SELECT avg(ulasan.rating) AS rating_rata FROM ulasan INNER JOIN buku
+                              ON ulasan.id_buku = buku.id_buku WHERE ulasan.id_buku=$id_buku AND status='accept'";
+                              $resultUlasan = mysqli_query($conn, $sqlUlasan);
+                              $rowUlasan = mysqli_fetch_assoc($resultUlasan);
 
                               $result = mysqli_query($conn, $sql);
 
@@ -120,7 +124,7 @@ if (!isset($_SESSION['nama'])) {
                               echo '<div class="col-lg-5 align-self-center text-center">';
                               echo '<img src="data:image/jpeg;base64,' . base64_encode($row['gambar']) . '" alt="' . $row['judul_buku'] . '" style="width: 100%; object-fit: cover;">';
 
-                              if (!is_null($row['rating_rata'])) {
+                              if (!is_null($rowUlasan['rating_rata'])) {
                                 echo '<p class="mx-3 pt-4" style="color: #000000; font-size: 14pt;">Rating: ' . number_format($row['rating_rata'], 1) . ' / 5</p>';
                                 echo '<div class="mx-3 mt-0 pt-0">';
                                 $average_rating = round($row['rating_rata']);
@@ -164,7 +168,7 @@ if (!isset($_SESSION['nama'])) {
                             // Query SQL untuk mengambil ulasan-ulasan
                             $sql_ulasan = "SELECT *
                             FROM ulasan
-                            WHERE id_buku = $id_buku
+                            WHERE id_buku = $id_buku AND status = 'accept'
                             ORDER BY tanggal DESC";
                             $result_ulasan = mysqli_query($conn, $sql_ulasan);
                             echo '<div class="row mt-4">';

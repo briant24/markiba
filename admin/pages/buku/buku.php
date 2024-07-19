@@ -23,7 +23,9 @@ $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.t
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
         GROUP BY buku.id_buku
         LIMIT $records_per_page OFFSET $offset";
-
+$sql2 = "SELECT MAX(ulasan.isi_ulasan) AS isi_ulasan FROM ulasan INNER JOIN buku ON ulasan.id_buku = buku.id_buku WHERE pic='admin'";
+$result2 = mysqli_query($conn, $sql2);
+$row2 = mysqli_fetch_assoc($result2);
 $result = mysqli_query($conn, $sql);
 
 // Hitung total halaman
@@ -163,7 +165,7 @@ mysqli_close($conn);
                                                 echo "<td>" . $row['nama_kategori'] . "</td>";
                                                 echo "<td>" . $row['rating'] . "</td>";
                                                 $reviewButton = '';
-                                                if (!empty($row['isi_ulasan'])) {
+                                                if (!empty($row2['isi_ulasan'])) {
                                                     // If there is a review, show "Edit Ulasan" button
                                                     $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
                                                 } else {

@@ -10,9 +10,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isi_ulasan = $_POST['isi_ulasan'];
     $rating = $_POST['rating'];
     $username = $_SESSION['username'];
+    $sesi = $_SESSION['is_admin'];
+    $pic='';
+    if($sesi){
+        $pic='admin';
+    }else{
+        $pic='user';
+    }
 
     // Insert review details into the 'ulasan' table
-    $sql_ulasan = "INSERT INTO ulasan (id_buku, isi_ulasan, rating, username) VALUES ('$id_buku', '$isi_ulasan', '$rating', '$username')";
+    $sql_ulasan = "INSERT INTO ulasan (id_buku, isi_ulasan, rating, username, pic) VALUES ('$id_buku', '$isi_ulasan', '$rating', '$username', '$pic')";
     $result_ulasan = mysqli_query($conn, $sql_ulasan);
 
     if ($result_ulasan) {

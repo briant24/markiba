@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_SESSION['username'];
 
     // Insert review details into the 'ulasan' table
-    $sql_ulasan = "INSERT INTO ulasan (id_buku, isi_ulasan, rating, username) VALUES ('$id_buku', '$isi_ulasan', '$rating', '$username')";
+    $sql_ulasan = "INSERT INTO ulasan (id_buku, isi_ulasan, rating, username, status, pic) VALUES ('$id_buku', '$isi_ulasan', '$rating', '$username', 'accept', 'admin')";
     $result_ulasan = mysqli_query($conn, $sql_ulasan);
 
     if ($result_ulasan) {
