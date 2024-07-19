@@ -175,8 +175,8 @@ if (!isset($_SESSION['username'])) {
                                                 <th>Judul Buku</th>
                                                 <th>Diskusi</th>
                                                 <th>Komentar</th>
-                                                <th>Aksi</th>
                                                 <th>Ulasan</th>
+                                                <th>Download</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,19 +194,6 @@ if (!isset($_SESSION['username'])) {
                                                         echo "<td>-</td>";
                                                     }
                                                     echo "<td>" . $row['jumlah_komentar'] . "</td>";
-                                                    echo "<td>";
-                                                    if (!empty($row['isi_diskusi'])) {
-                                                        echo "<button type='button' class='btn btn-warning btn-sm btnEditDiskusi' 
-                                                                data-toggle='modal' data-target='#modalEditDiskusi' 
-                                                                data-id_diskusi='" . $row['id_diskusi'] . "'
-                                                                data-isi_diskusi='" . htmlspecialchars($row['isi_diskusi']) . "'>Edit</button>";
-                                                        echo "<a href='proses_hapus_diskusi.php?id=" . $row['id_diskusi'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>Hapus</a>";
-                                                    } else {
-                                                        echo "<button type='button' class='btn btn-success btn-sm btnTambahDiskusi' 
-                                                                data-toggle='modal' data-target='#modalTambahDiskusi' 
-                                                                data-id_buku='" . $row['id_buku'] . "'>Tambah</button>";
-                                                    }
-                                                    echo "</td>";
                                                     $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Diskusi</a>";
                                                     $downloadButton = "<a href='export_diskusi_by_book.php?id_buku=". $row['id_buku']."' class='btn btn-success btn-sm mdi mdi-file-excel'></a>";
                                                     echo "<td>" . $reviewButton . "</td>";
