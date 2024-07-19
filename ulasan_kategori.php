@@ -73,6 +73,36 @@
     a:hover {
       color: #5701E3;
     }
+
+    /* Styling for the filter controls */
+    .filter-controls {
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      margin: 0 0 10px 0;
+    }
+
+    /* Button styling */
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    /* Styling for the year filter dropdown */
+    #filter-year {
+      padding: 5px 10px;
+      font-size: 14px;
+      height: auto;
+      width: auto;
+      min-width: 120px;
+    }
   </style>
 </head>
 <?php
@@ -120,7 +150,13 @@ include 'header.php';
             ?>
           </div>
         </div>
-
+        <div class="filter-controls">
+          <button id="sort-toggle" class="btn btn-primary" style="margin-right:10px;">A-Z</button>
+          <select id="filter-year" class="form-select" style="max-width:100px;">
+            <option value="">Filter Tahun</option>
+            <!-- Tahun akan diisi dengan JavaScript -->
+          </select>
+        </div>  
         <?php
         // Pagination setup
         $results_per_page = 6;
@@ -131,24 +167,39 @@ include 'header.php';
         }
         $start_from = ($page - 1) * $results_per_page;
         $id_kategori = $_GET['id_kategori'];
-        if(!isset($_GET['sub_kategori'])){
-          $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+        $year = isset($_GET['year']) ? $_GET['year'] : '';
+
+        $orderBy = '';
+        if ($sort === 'title-asc') {
+          $orderBy = 'ORDER BY buku.judul_buku ASC';
+        } elseif ($sort === 'title-desc') {
+          $orderBy = 'ORDER BY buku.judul_buku DESC';
+        }
+
+        $yearFilter = $year ? "AND buku.tahun_terbit = '$year'" : '';
+
+        if (!isset($_GET['sub_kategori'])) {
+          $sql = "SELECT DISTINCT buku.tahun_terbit, buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
           FROM buku
           INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
           LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
-          WHERE buku.id_kategori = '$id_kategori'
+          WHERE buku.id_kategori = '$id_kategori' $yearFilter
           GROUP BY buku.id_buku
-          LIMIT $start_from, $results_per_page"; 
-        }elseif(isset($_GET['sub_kategori'])){
+          $orderBy
+          LIMIT $start_from, $results_per_page";
+        } elseif (isset($_GET['sub_kategori'])) {
           $subkar = $_GET['sub_kategori'];
-          $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
+          $sql = "SELECT DISTINCT buku.tahun_terbit, buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
           FROM buku
           INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
           LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
-          WHERE buku.id_kategori = '$id_kategori' AND buku.jenis_buku LIKE '%$subkar%'
+          WHERE buku.id_kategori = '$id_kategori' AND buku.jenis_buku LIKE '%$subkar%' $yearFilter
           GROUP BY buku.id_buku
+          $orderBy
           LIMIT $start_from, $results_per_page";
         }
+
         
 
         $result = mysqli_query($conn, $sql);
@@ -236,6 +287,64 @@ include 'header.php';
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script>
+  $(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('id_kategori');
+    const subCategory = urlParams.get('sub_kategori');
+    let currentSortOrder = urlParams.get('sort') || 'title-asc';
+
+    function populateYearFilter() {
+      $.ajax({
+        url: 'get_years.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          const yearSelect = $('#filter-year');
+          yearSelect.empty();
+          yearSelect.append('<option value="">Filter Tahun</option>');
+          data.forEach(year => {
+            yearSelect.append(`<option value="${year}">${year}</option>`);
+          });
+        }
+      });
+    }
+
+    populateYearFilter();
+
+    // Update the sort button text based on current sort order
+    function updateSortButton() {
+      $('#sort-toggle').text(currentSortOrder === 'title-asc' ? 'Z-A' : 'A-Z');
+    }
+
+    updateSortButton();
+
+    // Toggle sorting order on button click
+    $('#sort-toggle').click(function () {
+      currentSortOrder = currentSortOrder === 'title-asc' ? 'title-desc' : 'title-asc';
+      updateSortButton();
+
+      const year = $('#filter-year').val();
+      let queryString = `?id_kategori=${category}`;
+      if (subCategory) queryString += `&sub_kategori=${subCategory}`;
+      if (year) queryString += `&year=${year}`;
+      queryString += `&sort=${currentSortOrder}`;
+
+      window.location.href = queryString;
+    });
+
+    // Apply filtering based on user input
+    $('#filter-year').change(function () {
+      const year = $(this).val();
+      let queryString = `?id_kategori=${category}`;
+      if (subCategory) queryString += `&sub_kategori=${subCategory}`;
+      if (year) queryString += `&year=${year}`;
+      queryString += `&sort=${currentSortOrder}`;
+
+      window.location.href = queryString;
+    });
+  });
+</script>
 
 </body>
 
