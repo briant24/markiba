@@ -28,6 +28,32 @@ if (!isset($_SESSION['username'])) {
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/Markiba.png" />
 </head>
+<style>
+  /* Modal custom styles */
+  .modal-dialog {
+    max-width: 80%; /* Adjust the size of the modal */
+  }
+  .modal-content {
+    border-radius: 0.5rem; /* Rounded corners for the modal */
+  }
+  .table {
+    margin-bottom: 0; /* Remove bottom margin from the table */
+  }
+  .thead-dark th {
+    background-color: #343a40; /* Dark background for the table header */
+    color: white; /* White text color for the table header */
+  }
+  .table-bordered {
+    border: 1px solid #dee2e6; /* Border color for the table */
+  }
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+  }
+  .modal-header{
+    display: block !important;
+  }
+</style>
+
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
@@ -70,7 +96,7 @@ if (!isset($_SESSION['username'])) {
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Account</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Admin Details</li>
+                <li class="breadcrumb-item active" aria-current="page">Account Details</li>
               </ol>
             </nav>
           </div>
@@ -90,7 +116,7 @@ if (!isset($_SESSION['username'])) {
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Admin Details</h4>
+                  <h4 class="card-title">Manager Details</h4>
                   <?php
                     include '../../../koneksi.php';
 
@@ -106,11 +132,11 @@ if (!isset($_SESSION['username'])) {
                           <table class="table">
                             <tbody>
                               <tr>
-                                <th>ID Admin</th>
+                                <th>ID Manager</th>
                                 <td><?php echo $row_admin['id_admin']; ?></td>
                               </tr>
                               <tr>
-                                <th>Nama Admin</th>
+                                <th>Nama Manager</th>
                                 <td><?php echo $row_admin['nama_admin']; ?></td>
                               </tr>
                               <tr>
@@ -120,9 +146,14 @@ if (!isset($_SESSION['username'])) {
                             </tbody>
                           </table>
                         </div>
-                        <div class="text-right">
-                          <a href="edit_account.php" class="btn btn-success btn-sm">Edit Profile</a>
-                          <a href="edit_password.php" class="btn btn-info btn-sm">Change Password</a>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top:10px;">
+                          <div>
+                            <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#adminListModal">List Admin</a>
+                          </div>
+                          <div class="text-right">
+                            <a href="edit_account.php" class="btn btn-success btn-sm">Edit Profile</a>
+                            <a href="edit_password.php" class="btn btn-info btn-sm">Change Password</a>
+                          </div>
                         </div>
                         <?php
                     } else {
@@ -139,6 +170,22 @@ if (!isset($_SESSION['username'])) {
     </div>
     <!-- page-body-wrapper ends -->
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="adminListModal" tabindex="-1" aria-labelledby="adminListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="adminListModalLabel">Daftar Admin</h5>
+          
+        </div>
+        <div class="modal-body text-center">
+          <div id="adminListContainer">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
@@ -151,6 +198,32 @@ if (!isset($_SESSION['username'])) {
   <script src="../../js/misc.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
+   <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  $(document).ready(function() {
+    // Event listener for opening the modal
+    $('#adminListModal').on('show.bs.modal', function (e) {
+      // Perform AJAX request when the modal is shown
+      $.ajax({
+        url: 'get_admin_list.php', // URL to your server-side script
+        method: 'GET',
+        success: function(response) {
+          $('#adminListContainer').html(response);
+        },
+        error: function() {
+          $('#adminListContainer').html('Failed to load data.');
+        }
+      });
+    });
+  });
+  </script>
+
+
   <!-- End custom js for this page-->
 </body>
 

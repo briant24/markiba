@@ -79,7 +79,7 @@ if ($result_admin && mysqli_num_rows($result_admin) > 0) {
         <div class="content-wrapper">
           <div class="page-header">
             <h3 class="page-title">
-              Edit Password Admin
+              Edit Password
             </h3>
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
@@ -92,9 +92,9 @@ if ($result_admin && mysqli_num_rows($result_admin) > 0) {
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Edit Password Admin</h4>
+                        <h4 class="card-title">Edit Password</h4>
                         <p class="card-description">
-                            Formulir untuk mengedit password admin
+                            Formulir untuk mengedit password
                         </p>
                         <?php
                         // Ambil parameter status dan pesan dari URL

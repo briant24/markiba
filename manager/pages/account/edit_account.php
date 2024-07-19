@@ -79,7 +79,7 @@ if ($result_admin && mysqli_num_rows($result_admin) > 0) {
         <div class="content-wrapper">
           <div class="page-header">
             <h3 class="page-title">
-              Edit Profil Admin
+              Edit Profil
             </h3>
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
@@ -92,14 +92,14 @@ if ($result_admin && mysqli_num_rows($result_admin) > 0) {
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Edit Profil Admin</h4>
+                        <h4 class="card-title">Edit Profil</h4>
                         <p class="card-description">
-                            Formulir untuk mengedit profil admin
+                            Formulir untuk mengedit profil
                         </p>
                         <form action="proses_edit_account.php" method="post">
                         <input type="hidden" name="id_admin" value="<?php echo $id_admin; ?>">
                             <div class="form-group">
-                                <label for="nama_admin">Nama Admin</label>
+                                <label for="nama_admin">Nama</label>
                                 <input type="text" class="form-control" id="nama_admin" name="nama_admin" placeholder="Nama Admin" required value="<?php echo $nama_admin; ?>">
                             </div>
                             <div class="form-group">
