@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result_ulasan) {
         // Redirect to the book list page with success message
-        header("Location: detail_ulasan.php?id_buku=$id_buku");
+        header("Location: detail_ulasan.php?id_buku=$id_buku&status=pending");
         exit();
     } else {
         // Show an error message if review insertion fails

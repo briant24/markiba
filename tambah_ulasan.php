@@ -86,7 +86,21 @@ $id_buku = $_GET['id_buku'];
                         </div>
                         <div class="form-group">
                             <label for="isi_ulasan">Ulasan</label>
-                            <textarea class="form-control" id="isi_ulasan" name="isi_ulasan" rows="30" placeholder="Tambah ulasan" re></textarea>
+                            <select class="form-control" id="isi_ulasan" name="isi_ulasan">
+                            <?php
+                            $ulasan_options = [
+                                "Buku yang sangat inspiratif dan menggugah.",
+                                "Ceritanya menarik dan alurnya bagus.",
+                                "Bahasanya mudah dipahami dan sangat informatif.",
+                                "Buku yang sangat membantu untuk memahami topik ini.",
+                                "Sangat direkomendasikan untuk dibaca."
+                            ];
+
+                            foreach ($ulasan_options as $ulasan) {
+                                echo "<option value=\"$ulasan\">$ulasan</option>";
+                            }
+                            ?>
+                          </select>
                         </div>
                         <div>
                             <br>

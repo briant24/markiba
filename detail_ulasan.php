@@ -469,5 +469,15 @@ if (!isset($_SESSION['nama'])) {
           </div>
       </div>
   </div>
+
+  <?php if (isset($_GET['status'])): ?>
+  <script>
+    Swal.fire({
+      title: 'Info!',
+      text: 'Komentar anda sedang direview admin.',
+      icon: 'info'
+    });
+  </script>
+  <?php endif; ?>
 </body>
 </html>
