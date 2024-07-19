@@ -84,7 +84,6 @@ if (!isset($_SESSION['username'])) {
                       <p class="card-description">Data artikel</p>
                     </div>
                     <div class="text-right">
-                      <a href="tambah_artikel.php" class="btn btn-primary btn-sm">Tambah Artikel</a>
                     </div>
                   </div>
                   <?php
@@ -133,8 +132,6 @@ if (!isset($_SESSION['username'])) {
                           // Displaying image (Assuming 'gambar' is the column name for the image)
                           echo "<td><img src='data:image/jpeg;base64," . base64_encode($row_artikel['gambar']) . "' alt='Gambar' style='width: 150px; height: auto; border-radius: 0px'></td>";
                           echo "<td>
-                            <a href='edit_artikel.php?id_artikel=" . $row_artikel['id_artikel'] . "' class='btn btn-warning btn-sm'>Edit</a>
-                            <a href='proses_hapus_artikel.php?id_artikel=" . $row_artikel['id_artikel'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>Hapus</a>
                             <button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#detailModal$no'>
                             Detail
                             </button>
@@ -156,7 +153,7 @@ if (!isset($_SESSION['username'])) {
                                   <p><strong>Isi Artikel:</strong> {$row_artikel['isi_artikel']}</p>
                                 </div>
                                 <div class='modal-footer'>
-                                  <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                                  <button type='button' class='btn btn-warning' data-dismiss='modal'>Close</button>
                                 </div>
                               </div>
                             </div>
