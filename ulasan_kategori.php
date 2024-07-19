@@ -95,19 +95,33 @@ include 'header.php';
     });
   </script>
 
+  <?php
+        include 'koneksi.php';
+        $cat = $_GET['id_kategori'];
+        $sqlcat = "SELECT * from kategori WHERE id_kategori='$cat'";
+        $resultcat = mysqli_query($conn, $sqlcat);
+        $rowcat = mysqli_fetch_assoc($resultcat);
+        $param = $rowcat['nama_kategori'];
+  ?>
   <div class="happy-clients section">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
           <div class="section-heading mt-4">
-            <h2>Ulasan Buku</h2>
+            <h2><?php echo $param; ?></h2>
             <div class="line-dec"></div>
+            <?php
+            if(isset($_GET['sub_kategori'])){
+              $subkar = $_GET['sub_kategori'];
+              ?>
+              <h5><?php echo $subkar; ?></h5>
+              <?php
+            }
+            ?>
           </div>
         </div>
 
         <?php
-        include 'koneksi.php';
-
         // Pagination setup
         $results_per_page = 6;
         if (!isset($_GET['page'])) {
@@ -117,15 +131,25 @@ include 'header.php';
         }
         $start_from = ($page - 1) * $results_per_page;
         $id_kategori = $_GET['id_kategori'];
+        if(!isset($_GET['sub_kategori'])){
+          $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
+          FROM buku
+          INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
+          LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
+          WHERE buku.id_kategori = '$id_kategori'
+          GROUP BY buku.id_buku
+          LIMIT $start_from, $results_per_page"; 
+        }elseif(isset($_GET['sub_kategori'])){
+          $subkar = $_GET['sub_kategori'];
+          $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
+          FROM buku
+          INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
+          LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
+          WHERE buku.id_kategori = '$id_kategori' AND buku.jenis_buku LIKE '%$subkar%'
+          GROUP BY buku.id_buku
+          LIMIT $start_from, $results_per_page";
+        }
         
-        // Query SQL to retrieve unique book reviews from the database with category and id_kategori filters
-        $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.gambar, AVG(ulasan.rating) AS rating_rata
-        FROM buku
-        INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
-        LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
-        WHERE buku.id_kategori = '$id_kategori'
-        GROUP BY buku.id_buku
-        LIMIT $start_from, $results_per_page";
 
         $result = mysqli_query($conn, $sql);
 
@@ -168,7 +192,12 @@ include 'header.php';
             echo '</div>';
           } 
 
-          $sql = "SELECT COUNT(id_buku) AS total FROM buku WHERE id_kategori = '$id_kategori'";
+          if(!isset($_GET['sub_kategori'])){
+            $sql = "SELECT COUNT(id_buku) AS total FROM buku WHERE id_kategori = '$id_kategori'";
+          }elseif(isset($_GET['sub_kategori'])){
+            $subkar = $_GET['sub_kategori'];
+            $sql = "SELECT COUNT(id_buku) AS total FROM buku WHERE id_kategori = '$id_kategori' AND jenis_buku LIKE '%$subkar%'";
+          }
           $result = mysqli_query($conn, $sql);
           $row = mysqli_fetch_assoc($result);
           $total_pages = ceil($row["total"] / $results_per_page);

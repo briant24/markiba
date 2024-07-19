@@ -136,29 +136,29 @@ header {
               <div class="submenu">
                 <a href="ulasan_kategori.php?id_kategori=1">Kesusastraan</a>
                 <div class="submenu-content">
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=novel">Novel</a>
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=puisi">Puisi</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=Novel">Novel</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=1&sub_kategori=Puisi">Puisi</a>
                 </div>
               </div>
               <div class="submenu">
                 <a href="ulasan_kategori.php?id_kategori=2">Filsafat & Psikologi</a>
                 <div class="submenu-content">
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=2&sub_kategori=pengembangan">Pengembangan Diri</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=2&sub_kategori=Pengembangan Diri">Pengembangan Diri</a>
                 </div>
               </div>
               <div class="submenu">
                 <a href="ulasan_kategori.php?id_kategori=3">Sejarah & Geografi</a>
                 <div class="submenu-content">
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=3&sub_kategori=sejarah">Sejarah Umum</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=3&sub_kategori=Sejarah Umum">Sejarah Umum</a>
                 </div>
               </div>
               <div class="submenu">
                 <a href="ulasan_kategori.php?id_kategori=8">Rekomendasi Anak</a>
                 <div class="submenu-content">
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=rakyat">Cerita Rakyat</a>
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=pendek">Cerita Pendek</a>
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=dongeng">Dongeng</a>
-                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=fabel">Fabel</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=Cerita Rakyat">Cerita Rakyat</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=Cerita Pendek">Cerita Pendek</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=Dongeng">Dongeng</a>
+                  <a class="subkategori" href="ulasan_kategori.php?id_kategori=8&sub_kategori=Fabel">Fabel</a>
                 </div>
               </div>
             </div>
