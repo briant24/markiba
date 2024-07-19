@@ -358,9 +358,8 @@ include 'header.php';
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div style="display: block !important; text-align: -webkit-center;" class="modal-header">
             <h5 class="modal-title" id="searchModalLabel">Cari Lebih Detail</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="form-group">
