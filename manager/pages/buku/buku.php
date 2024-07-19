@@ -118,8 +118,6 @@ mysqli_close($conn);
                                             <a href="export_buku.php"
                                                 class="btn btn-success btn-sm mdi mdi-file-excel">Download
                                                 Data</a>
-                                            <a href="tambah_buku.php" class="btn btn-primary btn-sm">Tambah
-                                                Buku</a>
                                         </div>
                                     </div>
                                     <?php if (mysqli_num_rows($result) > 0) : ?>
@@ -165,18 +163,9 @@ mysqli_close($conn);
                                                 echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['gambar']) . "' alt='Gambar' style='width: 50px; height: auto; border-radius: 0px'></td>";
                                                 echo "<td>" . $row['nama_kategori'] . "</td>";
                                                 echo "<td>" . $row['rating'] . "</td>";
-                                                $reviewButton = '';
-                                                if (!empty($row['isi_ulasan'])) {
-                                                    // If there is a review, show "Edit Ulasan" button
-                                                    $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
-                                                } else {
-                                                    // If there is no review, show "Tambah Ulasan" button
-                                                    $reviewButton = "<a href='tambah_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-primary btn-sm'>Tambah Ulasan</a>";
-                                                }
+                                                $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
                                                 echo "
                                                     <td>
-                                                        <a href='edit_buku.php?id=" . $row['id_buku'] . "' class='btn btn-warning btn-sm'>Edit</a>
-                                                        <a href='proses_hapus_buku.php?id=" . $row['id_buku'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus?\")'>Hapus</a>
                                                         <button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#detailModal$no'>
                                                             Detail
                                                         </button>
@@ -203,10 +192,9 @@ mysqli_close($conn);
                                                                     <p><strong>Sinopsis:</strong> {$row['sinopsis']}</p>
                                                                     <p><strong>Kategori:</strong> {$row['nama_kategori']}</p>
                                                                     <p><strong>Rating:</strong> {$row['rating']}</p>
-                                                                    <p><strong>Ulasan:</strong> {$row['isi_ulasan']}</p>
                                                                 </div>
                                                                 <div class='modal-footer'>
-                                                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                                                                    <button type='button' class='btn btn-warning' data-dismiss='modal'>Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
