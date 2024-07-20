@@ -20,19 +20,15 @@ $sheet = $spreadsheet->getActiveSheet();
 // Set headers
 $sheet->setCellValue('A1', 'No');
 $sheet->setCellValue('B1', 'Judul Diskusi');
-$sheet->setCellValue('C1', 'Isi Komentar');
-$sheet->setCellValue('D1', 'Isi Subkomentar');
+$sheet->setCellValue('C1', 'Waktu');
+$sheet->setCellValue('D1', 'Nama');
+$sheet->setCellValue('E1', 'Isi Komentar');
 
 // Query untuk mengambil judul diskusi, komentar, dan subkomentar
-$sql = "SELECT 
-            diskusi.id_diskusi,
-            diskusi.isi_diskusi AS judul_diskusi,
-            komentar_diskusi.isi_komentar AS isi_komentar,
-            sub_komentar.isi_komentar AS isi_subkomentar
-        FROM diskusi
-        LEFT JOIN komentar_diskusi ON diskusi.id_diskusi = komentar_diskusi.id_diskusi
-        LEFT JOIN sub_komentar ON komentar_diskusi.id_komentar = sub_komentar.id_komentar
-        ORDER BY diskusi.id_diskusi, komentar_diskusi.id_komentar, sub_komentar.id_sub";
+$sql = "SELECT diskusi.id_diskusi AS id, diskusi.isi_diskusi AS judul_diskusi,
+komentar_diskusi.waktu AS waktu, users.nama_user AS nama, komentar_diskusi.isi_komentar 
+AS isi_komentar FROM diskusi INNER JOIN komentar_diskusi ON diskusi.id_diskusi = komentar_diskusi.id_diskusi 
+INNER JOIN users ON komentar_diskusi.id_user = users.id";
 
 $result = mysqli_query($conn, $sql);
 
@@ -41,18 +37,19 @@ if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $sheet->setCellValue('A' . ($no + 1), $no);
         $sheet->setCellValue('B' . ($no + 1), $row['judul_diskusi']);
-        $sheet->setCellValue('C' . ($no + 1), $row['isi_komentar']);
-        $sheet->setCellValue('D' . ($no + 1), $row['isi_subkomentar']);
+        $sheet->setCellValue('C' . ($no + 1), $row['waktu']);
+        $sheet->setCellValue('D' . ($no + 1), $row['nama']);
+        $sheet->setCellValue('E' . ($no + 1), $row['isi_komentar']);
         $no++;
     }
 }
 
 // Mengatur lebar kolom otomatis
-foreach(range('A','D') as $columnID) {
+foreach(range('A','E') as $columnID) {
     $sheet->getColumnDimension($columnID)->setAutoSize(true);
 }
 // Menambahkan filter
-$sheet->setAutoFilter('A1:D1');
+$sheet->setAutoFilter('A1:E1');
 
 // Mengatur format untuk judul kolom
 $headerStyle = [
@@ -60,7 +57,7 @@ $headerStyle = [
     'fill' => ['fillType' => 'solid', 'startColor' => ['rgb' => 'DDDDDD']]
 ];
 
-$sheet->getStyle('A1:D1')->applyFromArray($headerStyle);
+$sheet->getStyle('A1:E1')->applyFromArray($headerStyle);
 // Set judul file Excel
 $filename = 'data_diskusi_' . date('Ymd') . '.xlsx';
 
