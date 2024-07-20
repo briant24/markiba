@@ -11,15 +11,14 @@ $jenis_buku = mysqli_real_escape_string($conn, $_POST['jenis_buku']);
 $sinopsis = mysqli_real_escape_string($conn, $_POST['sinopsis']);
 $isbn = mysqli_real_escape_string($conn, $_POST['ISBN']);
 $penerbit = mysqli_real_escape_string($conn, $_POST['id_penerbit']);
-$klasifikasi = mysqli_real_escape_string($conn, $_POST['klasifikasi']);
 
 // Tangkap data file gambar
 $gambar = $_FILES['gambar']['tmp_name'];
 $gambar_content = addslashes(file_get_contents($gambar));
 
 // Query SQL untuk menambah data buku
-$sql = "INSERT INTO buku (ISBN, judul_buku, nama_penulis, tahun_terbit, id_kategori, gambar, sinopsis, jenis_buku, klasifikasi, penerbit) 
-        VALUES ('$isbn', '$judul_buku', '$nama_penulis', '$tahun_terbit', '$id_kategori', '$gambar_content', '$sinopsis', '$jenis_buku', '$klasifikasi', '$penerbit')";
+$sql = "INSERT INTO buku (ISBN, judul_buku, nama_penulis, tahun_terbit, id_kategori, gambar, sinopsis, jenis_buku, penerbit) 
+        VALUES ('$isbn', '$judul_buku', '$nama_penulis', '$tahun_terbit', '$id_kategori', '$gambar_content', '$sinopsis', '$jenis_buku', '$penerbit')";
 
 // Eksekusi query
 if (mysqli_query($conn, $sql)) {

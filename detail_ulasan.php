@@ -89,7 +89,7 @@ if (!isset($_SESSION['nama'])) {
                               include 'koneksi.php';
                               // Query SQL untuk mengambil data buku dan ulasan
                               $sql = "SELECT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
-                              buku.sinopsis, kategori.nama_kategori, buku.klasifikasi, 
+                              buku.sinopsis, kategori.nama_kategori,  
                               AVG(ulasan.rating) AS rating_rata
                               FROM buku
                               INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
@@ -106,21 +106,6 @@ if (!isset($_SESSION['nama'])) {
                               // Check if there are results
                               if (mysqli_num_rows($result) > 0) {
                               $row = mysqli_fetch_assoc($result);
-                              $klasifikasi_buku = (int) $row['klasifikasi'];
-                              $umur_pengguna = $_SESSION['usia'];
-                              if($umur_pengguna < $klasifikasi_buku){
-                                    echo '<script>';
-                                    echo 'Swal.fire({';
-                                    echo '  title: "Maaf ya..",';
-                                    echo '  text: "Sayangnya buku ini kurang cocok buat kamu :(",';
-                                    echo '  icon: "info",';
-                                    echo '  confirmButtonText: "OK"';
-                                    echo '}).then(function() {';
-                                    echo '  window.location.replace("index.php");';
-                                    echo '});';
-                                    echo '</script>';
-                                    exit();
-                              }
                               echo '<div class="col-lg-5 align-self-center text-center">';
                               echo '<img src="data:image/jpeg;base64,' . base64_encode($row['gambar']) . '" alt="' . $row['judul_buku'] . '" style="width: 100%; object-fit: cover;">';
 

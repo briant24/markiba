@@ -176,14 +176,6 @@ if (!isset($_SESSION['username'])) {
                                 <label for="sinopsis">Sinopsis</label>
                                 <textarea class="form-control" id="sinopsis" name="sinopsis" rows="4" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="klasifikasi">Klasifikasi Umur</label>
-                                <select class="form-control" id="klasifikasi" name="klasifikasi" required>
-                                  <option value="17">17+</option>
-                                  <option value="10">10+</option>
-                                  <option value="0">Semua Umur</option>
-                                </select>
-                            </div>
                             <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
                             <a href="buku.php" class="btn btn-light">Cancel</a>
                         </form>
