@@ -164,14 +164,7 @@ mysqli_close($conn);
                                                 echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['gambar']) . "' alt='Gambar' style='width: 50px; height: auto; border-radius: 0px'></td>";
                                                 echo "<td>" . $row['nama_kategori'] . "</td>";
                                                 echo "<td>" . $row['rating'] . "</td>";
-                                                $reviewButton = '';
-                                                if (!empty($row2['isi_ulasan'])) {
-                                                    // If there is a review, show "Edit Ulasan" button
-                                                    $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
-                                                } else {
-                                                    // If there is no review, show "Tambah Ulasan" button
-                                                    $reviewButton = "<a href='tambah_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-primary btn-sm'>Tambah Ulasan</a>";
-                                                }
+                                                $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
                                                 echo "
                                                     <td>
                                                         <a href='edit_buku.php?id=" . $row['id_buku'] . "' class='btn btn-warning btn-sm'>Edit</a>
