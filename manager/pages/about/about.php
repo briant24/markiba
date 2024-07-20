@@ -113,7 +113,6 @@ $about_description = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $about_descrip
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <h4 class="card-title">Kelola Konten About Us</h4>
-                                        <a href="edit_about.php" class="btn btn-primary btn-sm">Edit Konten</a>
                                     </div>
                                     <div class="card-description-box">
                                         <div class="card-description">
