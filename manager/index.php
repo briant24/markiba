@@ -119,34 +119,43 @@ if (!isset($_SESSION['is_admin'])) {
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
-                    <h4 class="card-title">Grafik Pengunjung</h4>
+                    <h4 class="card-title">Grafik Pengunjung Markiba 2024</h4>
                     <div style="text-align: center;">
                       <label for="monthSelect">Pilih Bulan:</label>
-                        <select id="monthSelect">
-                          <option value="">Semua Bulan</option>
-                          <?php
-                            $months = [
-                                1 => 'Januari',
-                                2 => 'Februari',
-                                3 => 'Maret',
-                                4 => 'April',
-                                5 => 'Mei',
-                                6 => 'Juni',
-                                7 => 'Juli',
-                                8 => 'Agustus',
-                                9 => 'September',
-                                10 => 'Oktober',
-                                11 => 'November',
-                                12 => 'Desember',
-                            ];
-                            foreach ($months as $monthNumber => $monthName) {
-                                $selected = ($selected_month == $monthNumber) ? 'selected' : '';
-                                echo "<option value='$monthNumber' $selected>$monthName</option>";
-                            }
-                          ?>
-                        </select>
-                      </div>
+                      <select id="monthSelect">
+                        <option value="">Semua Bulan</option>
+                        <?php
+                          $months = [
+                              1 => 'Januari',
+                              2 => 'Februari',
+                              3 => 'Maret',
+                              4 => 'April',
+                              5 => 'Mei',
+                              6 => 'Juni',
+                              7 => 'Juli',
+                              8 => 'Agustus',
+                              9 => 'September',
+                              10 => 'Oktober',
+                              11 => 'November',
+                              12 => 'Desember',
+                          ];
+                          foreach ($months as $monthNumber => $monthName) {
+                              $selected = ($selected_month == $monthNumber) ? 'selected' : '';
+                              echo "<option value='$monthNumber' $selected>$monthName</option>";
+                          }
+                        ?>
+                      </select>
                     </div>
+                  </div>
+                  <div class="param-bulan" style="text-align: -webkit-center;">
+                    <?php
+                    if(isset($_GET['month'])){
+                      $monthNumber = $_GET['month'];
+                      $monthName = $months[$monthNumber];
+                      echo "Bulan" . " " .$monthName;
+                    }
+                    ?>
+                  </div>
                   <div style="width: 800px; margin: 0 auto;">
                       <canvas id="grafik"></canvas>
                   </div>
