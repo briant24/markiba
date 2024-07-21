@@ -17,7 +17,7 @@ $offset = ($current_page - 1) * $records_per_page;
 // Query SQL untuk menampilkan data buku dengan limit dan offset
 $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
         buku.sinopsis, kategori.nama_kategori, buku.penerbit ,
-        MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
+        COUNT(ulasan.id_ulasan) AS jumlah_ulasan, MAX(ulasan.rating) AS rating
         FROM buku
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
@@ -144,8 +144,8 @@ mysqli_close($conn);
                                                 <th>Gambar</th>
                                                 <th>Kategori</th>
                                                 <th>Rating</th>
-                                                <th>Aksi</th>
                                                 <th>Ulasan</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -164,6 +164,7 @@ mysqli_close($conn);
                                                 echo "<td>" . $row['nama_kategori'] . "</td>";
                                                 echo "<td>" . $row['rating'] . "</td>";
                                                 $reviewButton = "<a href='../../../detail_ulasan.php?id_buku=" . $row['id_buku'] . "' class='btn btn-info btn-sm'>Lihat Ulasan</a>";
+                                                echo "<td>" . $reviewButton . "</td>";
                                                 echo "
                                                     <td>
                                                         <button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#detailModal$no'>
@@ -171,8 +172,6 @@ mysqli_close($conn);
                                                         </button>
                                                     </td>
                                                 ";
-                                                echo "<td>" . $reviewButton . "</td>";
-
                                                 echo "</tr>";
 
                                                 // Modal for each row
@@ -194,7 +193,8 @@ mysqli_close($conn);
                                                                     <p><strong>Rating:</strong> {$row['rating']}</p>
                                                                 </div>
                                                                 <div class='modal-footer'>
-                                                                    <button type='button' class='btn btn-warning' data-dismiss='modal'>Close</button>
+                                                                    <a href='export_ulasan_buku.php?id={$row['id_buku']}' class='btn btn-success btn-sm mdi mdi-file-excel'>Download Ulasan</a>
+                                                                    <button type='button' class='btn btn-sm btn-warning' data-dismiss='modal'>Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
