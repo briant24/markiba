@@ -25,7 +25,7 @@ if (!isset($_SESSION['username'])) {
     <div class="container-scroller">
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="index.php"><img src="../../images/Markiba.png" alt="logo"
+                <a class="navbar-brand brand-logo" href="/markibas/index.php"><img src="../../images/Markiba.png" alt="logo"
                         style="width: 50px; height: 50px; margin-right:20px" /><span class="text-primary"
                         style="font-weight: bold">MARKIBA<span></a>
                 <a class="navbar-brand brand-logo-mini" href="index.php"><img src="../../images/Markiba.png"
