@@ -69,7 +69,11 @@ $headerStyle = [
 $sheet->getStyle('A1:F1')->applyFromArray($headerStyle);
 
 // Set judul file Excel
-$filename = 'Ulasan_Buku_' . $id . '_' . date('Ymd') . '.xlsx';
+$sqljudul = "SELECT judul_buku from buku WHERE id_buku='$id'";
+$result2 = mysqli_query($conn, $sqljudul);
+$row2 = mysqli_fetch_assoc($result2);
+$judul = $row2['judul_buku'];
+$filename = 'Ulasan_Buku_' . $judul . '_' . date('Ymd') . '.xlsx';
 
 // Set header untuk download file (mime type)
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
