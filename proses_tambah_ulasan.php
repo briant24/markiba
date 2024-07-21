@@ -20,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result_ulasan = mysqli_query($conn, $sql_ulasan);
 
     if ($result_ulasan) {
-        // Redirect to the book list page with success message
-        header("Location: detail_ulasan.php?id_buku=$id_buku&status=pending");
+        $_SESSION['tambah_ulasan'] = 'success';
+        header("Location: detail_ulasan.php?id_buku=$id_buku");
         exit();
     } else {
-        // Show an error message if review insertion fails
-        header("Location: buku.php?status=error&message=" . mysqli_error($conn));
+        $_SESSION['tambah_ulasan'] = 'failed';
+        header("Location: detail_ulasan.php?id_buku=$id_buku");
         exit();
     }
 

@@ -457,15 +457,24 @@ if (!isset($_SESSION['nama'])) {
           </div>
       </div>
   </div>
-
-  <?php if (isset($_GET['status'])==='pending'): ?>
+  <?php if (isset($_SESSION['tambah_ulasan']) && $_SESSION['tambah_ulasan'] === 'success'): ?>
   <script>
     Swal.fire({
-      title: 'Info!',
-      text: 'Ulasan anda sedang direview admin.',
-      icon: 'info'
+      title: 'Berhasil!',
+      text: 'Berhasil menambah ulasan.'
     });
   </script>
-  <?php endif; ?>
+  <?php 
+  unset($_SESSION['tambah_ulasan']);
+  elseif (isset($_SESSION['tambah_ulasan']) && $_SESSION['tambah_ulasan'] === 'failed'): ?>
+  <script>
+    Swal.fire({
+      title: 'Gagal!',
+      text: 'Gagal menambah ulasan.'
+    });
+  </script>
+  <?php 
+  unset($_SESSION['tambah_ulasan']);
+  endif; ?>
 </body>
 </html>
