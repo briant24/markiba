@@ -29,6 +29,7 @@ mysqli_close($conn);
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <!--
 
@@ -368,7 +369,7 @@ include 'header.php';
               <label for="sPenulis">Penulis</label>
               <input type="text" class="form-control" id="sPenulis" name="sPenulis">
               <label for="sTahun">Tahun</label>
-              <input type="number" class="form-control" id="sTahun" name="sTahun">
+              <input type="number" class="form-control" id="sTahun" name="sTahun" min="2000" max="2030" placeholder="2000-2030">
               <label for="sPenerbit">Penerbit</label>
               <input type="text" class="form-control" id="sPenerbit" name="sPenerbit">
               <button type="button" class="btn btn-success mt-3" id="searchDetailButton" style="width: 100%;">Cari</button>
@@ -430,12 +431,22 @@ include 'header.php';
               window.location.href = "detail_ulasan.php?id_buku=" + id_buku;
             });
           });
-          $(document).ready(function(){
-            $("#searchDetailButton").on("click", function(){
+          $(document).ready(function() {
+            $("#searchDetailButton").on("click", function() {
               var sJudul = $("#sJudul").val();
               var sPenulis = $("#sPenulis").val();
               var sTahun = $("#sTahun").val();
               var sPenerbit = $("#sPenerbit").val();
+
+              if (sTahun < 2000 || sTahun > 2030) {
+                Swal.fire({
+                  title: 'Info!',
+                  text: 'Tahun harus antara 2000 sampai 2030',
+                  icon: 'info'
+                });
+                $("#sTahun").focus();
+                return false;
+              }
 
               var queryString = $.param({
                 sJudul: sJudul,
