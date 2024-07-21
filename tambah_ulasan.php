@@ -1,12 +1,3 @@
-<?php
-session_start();
-
-// Check if the user is not logged in
-if (!isset($_SESSION['username'])) {
-    header("Location: auth/login.php"); // Redirect to the login page
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,6 +42,10 @@ if (!isset($_SESSION['username'])) {
 <?php
 $activePage = 'ulasan';
 include 'header.php';
+if (!isset($_SESSION['username'])) {
+  header("Location: auth/login.php"); // Redirect to the login page
+  exit();
+}
 $id_buku = $_GET['id_buku'];
 ?>
 <body>
