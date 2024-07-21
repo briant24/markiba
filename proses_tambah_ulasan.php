@@ -7,19 +7,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Collect review data
     $id_buku = $_POST['id_buku']; // Assuming you pass the book ID from the form
-    $isi_ulasan = $_POST['isi_ulasan'];
+    $jawaban1 = $_POST['questions'][0];
+    $jawaban2 = $_POST['questions'][1];
+    $jawaban3 = $_POST['questions'][2];
+    $jawaban4 = $_POST['questions'][3];
+    $jawaban5 = $_POST['questions'][4];
     $rating = $_POST['rating'];
     $username = $_SESSION['username'];
-    $sesi = $_SESSION['is_admin'];
-    $pic='';
-    if($sesi){
-        $pic='admin';
-    }else{
-        $pic='user';
-    }
 
     // Insert review details into the 'ulasan' table
-    $sql_ulasan = "INSERT INTO ulasan (id_buku, isi_ulasan, rating, username, pic) VALUES ('$id_buku', '$isi_ulasan', '$rating', '$username', '$pic')";
+    $sql_ulasan = "INSERT INTO ulasan (id_buku, jawab_1, jawab_2, jawab_3, jawab_4, jawab_5, rating, username) VALUES ('$id_buku', '$jawaban1', '$jawaban2', '$jawaban3', '$jawaban4', '$jawaban5', '$rating', '$username')";
     $result_ulasan = mysqli_query($conn, $sql_ulasan);
 
     if ($result_ulasan) {

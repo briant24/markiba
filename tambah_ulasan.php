@@ -72,34 +72,27 @@ $id_buku = $_GET['id_buku'];
                         <div class="form-group">
                           <label for="rating">Rating</label>
                           <div class="star-rating">
-                              <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">☆</label>
-                              <input type="radio" id="star4" name="rating" value="4" required /><label for="star4" title="4 stars">☆</label>
-                              <input type="radio" id="star3" name="rating" value="3" required /><label for="star3" title="3 stars">☆</label>
-                              <input type="radio" id="star2" name="rating" value="2" required /><label for="star2" title="2 stars">☆</label>
-                              <input type="radio" id="star1" name="rating" value="1" required /><label for="star1" title="1 star">☆</label>
+                              <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars" required>☆</label>
+                              <input type="radio" id="star4" name="rating" value="4" required /><label for="star4" title="4 stars" required>☆</label>
+                              <input type="radio" id="star3" name="rating" value="3" required /><label for="star3" title="3 stars" required>☆</label>
+                              <input type="radio" id="star2" name="rating" value="2" required /><label for="star2" title="2 stars" required>☆</label>
+                              <input type="radio" id="star1" name="rating" value="1" required /><label for="star1" title="1 star" required>☆</label>
                           </div>
                         </div>
-                        <div class="form-group">
-                            <label for="isi_ulasan">Ulasan</label>
-                            <select class="form-control" id="isi_ulasan" name="isi_ulasan">
-                            <?php
-                            $ulasan_options = [
-                                "Buku yang sangat inspiratif dan menggugah.",
-                                "Ceritanya menarik dan alurnya bagus.",
-                                "Bahasanya mudah dipahami dan sangat informatif.",
-                                "Buku yang sangat membantu untuk memahami topik ini.",
-                                "Sangat direkomendasikan untuk dibaca."
-                            ];
+                        <!-- Ulasan -->
+                        <!-- Pertanyaan-pertanyaan umum -->
+                        <?php
+                        include 'list_question.php';
 
-                            foreach ($ulasan_options as $ulasan) {
-                                echo "<option value=\"$ulasan\">$ulasan</option>";
-                            }
-                            ?>
-                          </select>
-                        </div>
-                        <div>
-                            <br>
-                        </div>
+                        foreach ($questions as $index => $question) {
+                            echo '<div class="form-group">';
+                            echo '<br>';
+                            echo '<label for="question_' . ($index + 1) . '">' . $question . '</label>';
+                            echo '<textarea class="form-control" id="question_' . ($index + 1) . '" name="questions[]" rows="3" required></textarea>';
+                            echo '</div>';
+                        }
+                        ?>
+                        <br>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         <a href="detail_ulasan.php?id_buku=<?php echo $id_buku ?>" class="btn btn-warning">Cancel</a>
                     </form>

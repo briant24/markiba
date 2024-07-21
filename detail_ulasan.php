@@ -145,27 +145,27 @@ if (!isset($_SESSION['nama'])) {
                       <div>
                         <br>
                         <?php 
-                            echo '<div class="row mt-4">';
+                             '<div class="row mt-4">';
                             echo '<div class="col-lg-12">';
                             echo '<div class="section-heading">';
                             echo '<h2>Kata <em>Mereka</em></h2>';
                             echo '</div>';
                             // Query SQL untuk mengambil ulasan-ulasan
-                            $sql_ulasan = "SELECT *
-                            FROM ulasan
+                            $sql_ulasan = "SELECT ulasan.*, users.nama_user
+                            FROM ulasan INNER JOIN users on ulasan.username = users.username
                             WHERE id_buku = $id_buku AND status = 'accept'
-                            ORDER BY tanggal DESC";
+                            ORDER BY tanggal DESC"; 
                             $result_ulasan = mysqli_query($conn, $sql_ulasan);
                             echo '<div class="row mt-4">';
                             if (mysqli_num_rows($result_ulasan) > 0) {
                             while ($row_ulasan = mysqli_fetch_assoc($result_ulasan)) {
                             echo '<div class="col-lg-6">';
                             echo '<div class="card mt-3" style="background-color: #f0f0f0;">';
-                            echo '<div class="card-body">';
-                            echo '<h5 class="card-title">' . $row_ulasan['username'] . '</h5>';
-                            echo '<p class="card-text">' . nl2br($row_ulasan['isi_ulasan']) . '</p>';
+                            echo '<div class="card-body"';
+                            echo '<h5 class="card-title">' . $row_ulasan['nama_user'] . '</h5>';
                             echo '<p class="card-text">Rating: ' . $row_ulasan['rating'] . ' / 5</p>';
                             echo '<p class="card-text"><small class="text-muted">Waktu: ' . $row_ulasan['tanggal'] . '</small></p>';
+                            echo '<button class="btn btn-sm btn-primary view-detail-ulasan" style="cursor: pointer;" data-id="'.$row_ulasan['id_ulasan'].'">Detail</button>';
                             echo '</div>';
                             echo '</div>';
                             echo '</div>';
@@ -330,9 +330,8 @@ if (!isset($_SESSION['nama'])) {
         </div>
       </div>
     </div>
-  </div>
-
-  <footer>
+    
+    <footer>
     <div class="container mt-5" style="">
       <div class="col-lg-12">
         <p>Copyright © 2023 <a href="#">Markiba</a>

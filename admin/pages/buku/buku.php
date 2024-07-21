@@ -17,15 +17,12 @@ $offset = ($current_page - 1) * $records_per_page;
 // Query SQL untuk menampilkan data buku dengan limit dan offset
 $sql = "SELECT DISTINCT buku.id_buku, buku.judul_buku, buku.nama_penulis, buku.tahun_terbit, buku.gambar, 
         buku.sinopsis, kategori.nama_kategori, buku.penerbit , 
-        MAX(ulasan.isi_ulasan) AS isi_ulasan, MAX(ulasan.rating) AS rating
+        COUNT(ulasan.id_ulasan) AS jumlah_ulasan, MAX(ulasan.rating) AS rating
         FROM buku
         INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori
         LEFT JOIN ulasan ON buku.id_buku = ulasan.id_buku
         GROUP BY buku.id_buku
         LIMIT $records_per_page OFFSET $offset";
-$sql2 = "SELECT MAX(ulasan.isi_ulasan) AS isi_ulasan FROM ulasan INNER JOIN buku ON ulasan.id_buku = buku.id_buku WHERE pic='admin'";
-$result2 = mysqli_query($conn, $sql2);
-$row2 = mysqli_fetch_assoc($result2);
 $result = mysqli_query($conn, $sql);
 
 // Hitung total halaman
@@ -195,7 +192,7 @@ mysqli_close($conn);
                                                                     <p><strong>Sinopsis:</strong> {$row['sinopsis']}</p>
                                                                     <p><strong>Kategori:</strong> {$row['nama_kategori']}</p>
                                                                     <p><strong>Rating:</strong> {$row['rating']}</p>
-                                                                    <p><strong>Ulasan:</strong> {$row['isi_ulasan']}</p>
+                                                                    <p><strong>Jumlah Ulasan:</strong> {$row['jumlah_ulasan']}</p>
                                                                 </div>
                                                                 <div class='modal-footer'>
                                                                     <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>

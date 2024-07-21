@@ -93,7 +93,7 @@ if (!isset($_SESSION['username'])) {
                   // Query SQL untuk menampilkan data Ulasan
                   $sql = "SELECT ulasan.id_ulasan AS id, users.nama_user AS nama,
                   buku.judul_buku AS judul, ulasan.tanggal AS tanggal, ulasan.status AS status,
-                  ulasan.isi_ulasan AS isi, 'Ulasan' AS tipe FROM ulasan 
+                  'Lihat Detail' AS isi, 'Ulasan' AS tipe FROM ulasan 
                   INNER JOIN users ON ulasan.username = users.username INNER JOIN buku 
                   on ulasan.id_buku = buku.id_buku
                   UNION
@@ -121,7 +121,7 @@ if (!isset($_SESSION['username'])) {
                       <tr>
                         <th>No</th>
                         <th>User</th>
-                        <th>Buku</th>
+                        <th>Buku / Diskusi</th>
                         <th>Isi</th>
                         <th>Tanggal</th>
                         <th>Tipe</th>
@@ -161,6 +161,7 @@ if (!isset($_SESSION['username'])) {
                           echo "<td>" . $row_artikel['tipe'] . "</td>";
                           echo "<td><span class='badge $status_class'>$status_text</span></td>";
                           echo "<td>
+                                    <button class='btn btn-info btn-sm view-detail-btn' data-id='" .$row_artikel['id']. "' data-tipe=' " . $row_artikel['tipe'] ."'>i</button>
                                     <button class='btn btn-success btn-sm approve-btn' data-id='" . $row_artikel['id'] . "' data-tipe='" . $row_artikel['tipe'] . "'>Approve</button>
                                     <button class='btn btn-danger btn-sm reject-btn' data-id='" . $row_artikel['id'] . "' data-tipe='" . $row_artikel['tipe'] . "'>Reject</button>
                                 </td>";
@@ -172,6 +173,25 @@ if (!isset($_SESSION['username'])) {
                       ?>
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal untuk menampilkan pertanyaan dan jawaban -->
+          <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="detailModalLabel">Detail Pertanyaan dan Jawaban</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div id="questionList"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
@@ -286,6 +306,31 @@ $(document).ready(function() {
     }
 });
 </script>
+<script>
+$(document).ready(function() {
+    $('.view-detail-btn').click(function() {
+        var id = $(this).data('id');
+        var tipe = $(this).data('tipe');
+        $.ajax({
+            url: '../../../get_detail.php',
+            type: 'POST',
+            data: {
+                id: id,
+                tipe: tipe
+            },
+            success: function(response) {
+                $('#questionList').html(response);
+                $('#detailModal').modal('show');
+                console.log(response);
+            },
+            error: function() {
+                alert('Terjadi kesalahan saat memuat detail.');
+            }
+        });
+    });
+});
+</script>
+
 
 
 
