@@ -84,15 +84,23 @@ $id_buku = $_GET['id_buku'];
                         <!-- Ulasan -->
                         <!-- Pertanyaan-pertanyaan umum -->
                         <?php
-                        include 'list_question.php';
-
-                        foreach ($questions as $index => $question) {
+                          include 'list_question.php';
+                          foreach ($questions as $index => $question) {
                             echo '<div class="form-group">';
                             echo '<br>';
                             echo '<label for="question_' . ($index + 1) . '">' . $question;
                             echo '<span style="color: red;"> *</span>';
                             echo '</label>';
-                            echo '<textarea class="form-control" id="question_' . ($index + 1) . '" name="questions[]" rows="3" required></textarea>';
+                            echo '<div>'; // Mulai div untuk pilihan jawaban
+                            echo '<input type="radio" id="question_' . ($index + 1) . '_a" name="answers[' . $index . ']" value="Sangat Baik" required>';
+                            echo '<label for="question_' . ($index + 1) . '_a">Sangat baik</label><br>';
+                            echo '<input type="radio" id="question_' . ($index + 1) . '_b" name="answers[' . $index . ']" value="Baik" required>';
+                            echo '<label for="question_' . ($index + 1) . '_b">Baik</label><br>';
+                            echo '<input type="radio" id="question_' . ($index + 1) . '_c" name="answers[' . $index . ']" value="Cukup Baik" required>';
+                            echo '<label for="question_' . ($index + 1) . '_c">Cukup baik</label><br>';
+                            echo '<input type="radio" id="question_' . ($index + 1) . '_d" name="answers[' . $index . ']" value="Kurang Baik" required>';
+                            echo '<label for="question_' . ($index + 1) . '_d">Kurang baik</label><br>';
+                            echo '</div>'; // Akhiri div untuk pilihan jawaban
                             echo '</div>';
                         }
                         ?>

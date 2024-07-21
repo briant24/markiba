@@ -7,11 +7,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Collect review data
     $id_buku = $_POST['id_buku']; // Assuming you pass the book ID from the form
-    $jawaban1 = $_POST['questions'][0];
-    $jawaban2 = $_POST['questions'][1];
-    $jawaban3 = $_POST['questions'][2];
-    $jawaban4 = $_POST['questions'][3];
-    $jawaban5 = $_POST['questions'][4];
+    $jawaban1 = $_POST['answers'][0];
+    $jawaban2 = $_POST['answers'][1];
+    $jawaban3 = $_POST['answers'][2];
+    $jawaban4 = $_POST['answers'][3];
+    $jawaban5 = $_POST['answers'][4];
     $rating = $_POST['rating'];
     $username = $_SESSION['username'];
 
