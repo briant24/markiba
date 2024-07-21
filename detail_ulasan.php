@@ -416,8 +416,12 @@ if (!isset($_SESSION['nama'])) {
                     // Sukses: lakukan apa yang diperlukan (misalnya, sembunyikan modal, reset form, dll.)
                     modalBalas.hide();
                     formKomentar.reset();
-                    alert('Komentar berhasil dikirim!');
-                    location.reload();
+                    Swal.fire({
+                      title: 'Info!',
+                      text: 'Komentar anda sedang direview admin.',
+                      icon: 'info'
+                    });
+                    window.location.href = 'tambah_ulasan.php?id=' + id;
                 },
                 error: function(xhr, status, error) {
                     // Error handling
@@ -454,11 +458,11 @@ if (!isset($_SESSION['nama'])) {
       </div>
   </div>
 
-  <?php if (isset($_GET['status'])): ?>
+  <?php if (isset($_GET['status'])==='pending'): ?>
   <script>
     Swal.fire({
       title: 'Info!',
-      text: 'Komentar anda sedang direview admin.',
+      text: 'Ulasan anda sedang direview admin.',
       icon: 'info'
     });
   </script>
