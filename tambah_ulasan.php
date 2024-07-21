@@ -70,7 +70,9 @@ $id_buku = $_GET['id_buku'];
                         <input type="hidden" name="id_buku" value="<?php echo $id_buku; ?>">
                         <!-- New field for adding review -->
                         <div class="form-group">
-                          <label for="rating">Rating</label>
+                          <label for="rating">Rating
+                          <span style="color: red;"> *</span>
+                          </label>
                           <div class="star-rating">
                               <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars" required>☆</label>
                               <input type="radio" id="star4" name="rating" value="4" required /><label for="star4" title="4 stars" required>☆</label>
@@ -87,7 +89,9 @@ $id_buku = $_GET['id_buku'];
                         foreach ($questions as $index => $question) {
                             echo '<div class="form-group">';
                             echo '<br>';
-                            echo '<label for="question_' . ($index + 1) . '">' . $question . '</label>';
+                            echo '<label for="question_' . ($index + 1) . '">' . $question;
+                            echo '<span style="color: red;"> *</span>';
+                            echo '</label>';
                             echo '<textarea class="form-control" id="question_' . ($index + 1) . '" name="questions[]" rows="3" required></textarea>';
                             echo '</div>';
                         }
